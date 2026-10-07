@@ -7,7 +7,6 @@ Sin dependencias (sólo la biblioteca estándar de Python 3.8+). El HTML generad
 se versiona tal cual, así que el sitio se sirve sin build: este script sólo hace
 falta cuando cambias algo en data/.
 """
-import datetime
 import html
 import json
 import os
@@ -28,12 +27,11 @@ PAGINAS = [
     ("editorial", "editorial.html"),
     ("terreno", "trabajo-de-campo.html"),
     ("acerca", "acerca.html"),
-    ("cv", "cv.html"),
 ]
 ARCHIVO = dict(PAGINAS, inicio="index.html")
 
 # Rutas antiguas que ya no existen: se redirigen para no romper enlaces.
-REDIRECCIONES = {"escritos/cartografia-chiapas.html": "escritos.html"}
+REDIRECCIONES = {"escritos/cartografia-chiapas.html": "escritos.html", "cv.html": "acerca.html#cv"}
 
 
 def cargar(nombre):
@@ -85,9 +83,24 @@ LAMPARA = """<svg class="lamp-icon" viewBox="0 0 40 40" aria-hidden="true" focus
         <line class="base" x1="3" y1="34" x2="13" y2="34"/>
       </svg>"""
 
-ICONO_YOUTUBE = ('<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
-                 '<rect x="2.5" y="5.5" width="19" height="13" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.4"/>'
-                 '<path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>')
+_SVG = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">{}</svg>'
+ICONOS = {
+    "instagram": _SVG.format(
+        '<rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+        '<circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+        '<circle cx="17.2" cy="6.8" r="1" fill="currentColor"/>'),
+    "linkedin": _SVG.format(
+        '<rect x="3.5" y="3.5" width="17" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+        '<path d="M8 10.5v6M8 7.6v.1M11.5 16.5v-6M11.5 13c0-1.6 1-2.6 2.3-2.6s2.2.9 2.2 2.6v3.5" '
+        'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'),
+    "youtube": _SVG.format(
+        '<rect x="2.5" y="5.5" width="19" height="13" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+        '<path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/>'),
+    "academia": _SVG.format(
+        '<path d="M2.5 9.5 12 5l9.5 4.5L12 14z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>'
+        '<path d="M6.5 11.6v4c1.4 1.5 3.3 2.3 5.5 2.3s4.1-.8 5.5-2.3v-4M21.5 9.5v5" '
+        'fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'),
+}
 
 # Fija el tema antes de pintar, para que no parpadee.
 TEMA_INLINE = ('<script>try{var t=localStorage.getItem("ra_theme");'
@@ -190,15 +203,23 @@ def bloque_contacto(idioma, h="h2"):
 </section>"""
 
 
+def iconos_perfiles():
+    items = []
+    for p in T["enlaces"]["perfiles"]:
+        if pendiente(p["url"]):
+            items.append(f"<!-- {e(p['url'])} ({e(p['nombre'])}) -->")
+            continue
+        items.append(f'<li><a href="{e(p["url"])}" rel="me noopener" aria-label="{e(p["nombre"])}" '
+                     f'title="{e(p["nombre"])}">{ICONOS[p["icono"]]}</a></li>')
+    return "\n    ".join(items)
+
+
 def pie(idioma, rel):
     c = T["comun"][idioma]
-    perfiles = " ".join(
-        f'<a href="{e(p["url"])}" rel="me noopener">{e(p["nombre"])}</a>' for p in T["enlaces"]["perfiles"]
-    )
-    anio = datetime.date.today().year
     return f"""<footer class="site">
-  <span>© {anio} Rogelio Alcántara</span>
-  <span class="footer-links">{correo(idioma, "", c['correo'])} {perfiles}</span>
+  <ul class="social" aria-label="{e(c['redes'])}">
+    {iconos_perfiles()}
+  </ul>
 </footer>
 <script src="{rel}assets/script.js" defer></script>
 </body>
@@ -285,39 +306,37 @@ def fila_enlaces(idioma):
         if pendiente(n["url"]):
             items.append(f"<!-- {e(n['url'])} ({e(n['nombre'])}) -->")
             continue
-        icono = ICONO_YOUTUBE if n.get("icono") == "youtube" else ""
-        items.append(f'<li><a href="{e(n["url"])}" rel="noopener">{icono}{e(n["nombre"])}</a></li>')
+        items.append(f'<li><a href="{e(n["url"])}" rel="noopener">{e(n["nombre"])}</a></li>')
     return "\n    ".join(items)
+
+
+def retrato(ruta, alt, sizes, prioridad=True):
+    extra = ' fetchpriority="high"' if prioridad else ' loading="lazy"'
+    return f"""<picture>
+      <source type="image/avif" srcset="{ruta}-600.avif 600w, {ruta}-1200.avif 1200w" sizes="{sizes}">
+      <source type="image/webp" srcset="{ruta}-600.webp 600w, {ruta}-1200.webp 1200w" sizes="{sizes}">
+      <img src="{ruta}-1200.jpg" width="1200" height="1600" alt="{e(alt)}" decoding="async"{extra}>
+    </picture>"""
 
 
 def pagina_inicio(idioma):
     s = T["inicio"][idioma]
-    recientes = [i for i in obra_ordenada() if i["tipo"] in ("articulo", "entrevista")][:4]
-    lista = "\n".join(item_obra(i, idioma) for i in recientes)
-    cuerpo = f"""<section class="hero" aria-labelledby="nombre">
-  <p class="kicker">{e(s['campo'])}</p>
-  <h1 id="nombre">Rogelio Alcántara</h1>
-  <p class="lede">{e(s['frase'])}</p>
-  <p class="hero-actions"><a class="link-arrow" href="escritos.html">{e(s['leer'])} <span aria-hidden="true">→</span></a></p>
-  <div class="channels">
-    <h2 class="kicker">{e(s['newsletters'])}</h2>
-    <ul>
-    {fila_enlaces(idioma)}
-    </ul>
+    rel = "../" if CARPETA[idioma] else ""
+    cuerpo = f"""<section class="home" aria-labelledby="nombre">
+  <figure class="frame">
+    {retrato(rel + "assets/img/inicio", s['foto_alt'], "(max-width: 760px) 92vw, 340px")}
+  </figure>
+  <div class="home-text">
+    <h1 id="nombre">Rogelio Alcántara</h1>
+    <p class="statement">{e(s['frase'])}</p>
+    <div class="channels">
+      <h2 class="kicker">{e(s['newsletters'])}</h2>
+      <ul>
+      {fila_enlaces(idioma)}
+      </ul>
+    </div>
   </div>
-</section>
-
-<section aria-labelledby="recientes">
-  <div class="section-head">
-    <h2 class="kicker" id="recientes">{e(s['recientes'])}</h2>
-    <a class="see-all" href="escritos.html">{e(s['ver_todo'])} <span aria-hidden="true">→</span></a>
-  </div>
-  <ol class="entries">
-{lista}
-  </ol>
-</section>
-
-{bloque_contacto(idioma)}"""
+</section>"""
     return pagina(idioma, "inicio", s["titulo_meta"], s["descripcion"], cuerpo)
 
 
@@ -378,69 +397,45 @@ def pagina_terreno(idioma):
 
 def pagina_acerca(idioma):
     s = T["acerca"][idioma]
+    cv = T["cv"][idioma]
     rel = "../" if CARPETA[idioma] else ""
-    foto = rel + "assets/img/rogelio-alcantara"
-    perfiles = "\n    ".join(
-        f'<li><a href="{e(p["url"])}" rel="me noopener">{e(p["nombre"])}</a></li>' for p in T["enlaces"]["perfiles"]
-    )
-    cuerpo = f"""<div class="about">
-  <figure class="portrait">
-    <picture>
-      <source type="image/avif" srcset="{foto}-600.avif 600w, {foto}-1200.avif 1200w" sizes="(max-width: 760px) 100vw, 360px">
-      <source type="image/webp" srcset="{foto}-600.webp 600w, {foto}-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 360px">
-      <img src="{foto}-1200.jpg" width="1200" height="1600" alt="{e(s['foto_alt'])}" decoding="async" fetchpriority="high">
-    </picture>
-  </figure>
-  <div class="about-text">
-    <h1>{e(T['nav'][idioma]['acerca'])}</h1>
-    <p class="statement">{e(s['frase'])}</p>
-    <h2 class="kicker">{e(s['enlaces'])}</h2>
-    <ul class="link-list">
-    {perfiles}
-    </ul>
-  </div>
-</div>
-
-{bloque_contacto(idioma)}"""
-    return pagina(idioma, "acerca", titulo_pagina(idioma, "acerca"), s["descripcion"], cuerpo, "profile")
-
-
-def pagina_cv(idioma):
-    s = T["cv"][idioma]
 
     def lineas(clave):
         filas = "\n".join(
             f'  <li><span class="role">{e(rol)}</span> <span class="org">{e(org)}</span></li>'
-            for rol, org in s["lineas"][clave]
+            for rol, org in cv["lineas"][clave]
         )
         return f'<ul class="cv-lines">\n{filas}\n</ul>'
 
-    cuerpo = f"""<div class="page-head">
-  <h1>{e(s['titulo'])}</h1>
+    cuerpo = f"""<div class="about">
+  <figure class="frame">
+    {retrato(rel + "assets/img/rogelio-alcantara", s['foto_alt'], "(max-width: 760px) 92vw, 340px")}
+  </figure>
+  <div class="about-text">
+    <h1>{e(T['nav'][idioma]['acerca'])}</h1>
+    <p class="statement">{e(s['frase'])}</p>
+  </div>
 </div>
 
-<section aria-labelledby="formacion">
-  <h2 class="kicker" id="formacion">{e(s['formacion'])}</h2>
+<section id="cv" aria-labelledby="formacion">
+  <h2 class="kicker" id="formacion">{e(cv['formacion'])}</h2>
   {lineas('formacion')}
 </section>
 
 <section aria-labelledby="trayectoria">
-  <h2 class="kicker" id="trayectoria">{e(s['trayectoria'])}</h2>
+  <h2 class="kicker" id="trayectoria">{e(cv['trayectoria'])}</h2>
   {lineas('trayectoria')}
 </section>
 
 <section aria-labelledby="areas">
-  <h2 class="kicker" id="areas">{e(s['areas'])}</h2>
-  <p class="prose">{e(s['areas_texto'])}</p>
-  <p class="prose">{e(s['participaciones'])} <a class="link-arrow" href="escritos.html#ponencia">{e(s['participaciones_enlace'])} <span aria-hidden="true">→</span></a></p>
+  <h2 class="kicker" id="areas">{e(cv['areas'])}</h2>
+  <p class="prose">{e(cv['areas_texto'])}</p>
+  <p class="prose">{e(cv['participaciones'])} <a class="link-arrow" href="escritos.html#ponencia">{e(cv['participaciones_enlace'])} <span aria-hidden="true">→</span></a></p>
+  <p class="prose">{e(cv['completo_texto'])}</p>
 </section>
 
-<section aria-labelledby="completo">
-  <h2 class="kicker" id="completo">{e(s['completo'])}</h2>
-  <p class="prose">{e(s['completo_texto'])}</p>
-  <p>{correo(idioma, "btn", s['completo_boton'])}</p>
-</section>"""
-    return pagina(idioma, "cv", titulo_pagina(idioma, "cv"), s["descripcion"], cuerpo)
+{bloque_contacto(idioma)}"""
+    return pagina(idioma, "acerca", titulo_pagina(idioma, "acerca"), s["descripcion"], cuerpo, "profile")
 
 
 def redireccion(destino):
@@ -478,7 +473,6 @@ def main():
             hechas.append(escribir(base + ARCHIVO[clave], pagina_en_preparacion(idioma, clave)))
         hechas.append(escribir(base + ARCHIVO["terreno"], pagina_terreno(idioma)))
         hechas.append(escribir(base + ARCHIVO["acerca"], pagina_acerca(idioma)))
-        hechas.append(escribir(base + ARCHIVO["cv"], pagina_cv(idioma)))
         for viejo, nuevo in REDIRECCIONES.items():
             subir = "../" * viejo.count("/")
             hechas.append(escribir(base + viejo, redireccion(subir + nuevo)))

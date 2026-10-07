@@ -41,9 +41,9 @@ Nunca subas la foto original al repositorio.
 
 ```
 index.html, escritos.html, docencia.html, proyectos.html, teatro-politico.html,
-editorial.html, trabajo-de-campo.html, acerca.html, cv.html   → inglés
+editorial.html, trabajo-de-campo.html, acerca.html            → inglés
 es/…, fr/…                                                     → mismos archivos
-escritos/cartografia-chiapas.html                              → redirección (ruta antigua)
+escritos/cartografia-chiapas.html, cv.html                     → redirecciones (rutas antiguas)
 assets/style.css      → estilos (modo claro/oscuro incluido)
 assets/script.js      → lámpara, correo protegido, filtro de Escritos
 assets/fonts/         → EB Garamond (licencia OFL)
