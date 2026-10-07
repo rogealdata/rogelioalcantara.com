@@ -1,41 +1,68 @@
-# rogelio alcántara — el consigliere
+# rogelioalcantara.com
 
-Sitio estático. Sin build step, sin dependencias, sin CMS: son puros archivos HTML/CSS/JS que puedes editar directamente.
+Sitio estático en tres idiomas (inglés en la raíz, español en `es/`, francés en `fr/`). GitHub Pages sirve el HTML tal cual: no hay build en el servidor ni CMS.
+
+## Cómo se edita
+
+Todo el contenido vive en `data/`:
+
+| Archivo | Qué contiene |
+| --- | --- |
+| `data/obra.json` | Escritos, tesis, ponencias y organización académica (un solo archivo para el índice de Escritos y la portada) |
+| `data/textos.json` | Todos los textos de las páginas, por idioma (en, es, fr), y los enlaces externos |
+| `data/terreno.json` | Proyectos y fotos de Trabajo de campo |
+
+Después de editar, regenera las páginas:
+
+```
+python3 tools/build.py
+```
+
+Sólo necesita Python 3 (sin instalar nada). Escribe los `.html` de los tres idiomas, el `sitemap.xml` y las etiquetas `hreflang`/Open Graph. Los `.html` generados se versionan; no los edites a mano porque el siguiente build los sobrescribe.
+
+### Añadir una obra
+
+Copia una entrada en `data/obra.json` y cambia los campos. `fecha` es `AAAA-MM` (o sólo `AAAA`); `tipo` es `articulo`, `entrevista`, `tesis`, `ponencia` u `organizacion`. Los títulos no se traducen; `medio`, `lugar` y `nota` pueden ser texto simple o `{ "en": …, "es": …, "fr": … }`.
+
+### Añadir fotos de terreno
+
+1. Procesa cada foto (borra EXIF y GPS, corrige orientación, genera AVIF, WebP y JPG):
+
+   ```
+   pip install pillow pillow-heif   # una sola vez
+   python3 tools/fotos.py ORIGEN.jpg assets/img/terreno/PROYECTO/001
+   ```
+
+2. Añade la foto en `data/terreno.json` (hay un `_ejemplo`) con `"publicar": true` sólo después de revisar rostros, ubicación, fecha y consentimiento.
+
+Nunca subas la foto original al repositorio.
 
 ## Estructura
 
 ```
-index.html            → inglés (home)
-escritos.html          → inglés (índice de escritos)
-cv.html                 → inglés (CV)
-escritos/               → artículos en inglés (uno por archivo)
-es/                     → misma estructura, en español
-fr/                     → misma estructura, en francés
-assets/style.css        → todos los estilos, en un solo archivo
-assets/script.js        → el toggle de la lamparita (claro/oscuro)
-CNAME                   → tu dominio, para GitHub Pages
+index.html, escritos.html, docencia.html, proyectos.html, teatro-politico.html,
+editorial.html, trabajo-de-campo.html, acerca.html, cv.html   → inglés
+es/…, fr/…                                                     → mismos archivos
+escritos/cartografia-chiapas.html                              → redirección (ruta antigua)
+assets/style.css      → estilos (modo claro/oscuro incluido)
+assets/script.js      → lámpara, correo protegido, filtro de Escritos
+assets/fonts/         → EB Garamond (licencia OFL)
+assets/img/           → imágenes ya limpias de metadatos
+data/, tools/         → contenido y generador
 ```
 
-## Cómo agregar un nuevo escrito
+## Previsualizar
 
-1. Copia `escritos/cartografia-chiapas.html` (o su versión en `es/` o `fr/`) con un nombre nuevo, ej. `escritos/mi-nuevo-articulo.html`.
-2. Cambia el `<title>`, el `kicker` (tipo · fecha · lugar), el `<h1>` y el cuerpo del artículo.
-3. Agrega una fila nueva en `escritos.html` (y en `index.html` si quieres que aparezca en la portada) apuntando a tu archivo nuevo.
-4. Repite en `es/` y `fr/` si quieres las tres versiones — o deja el escrito solo en un idioma, no pasa nada si por ahora no lo traduces.
+```
+python3 -m http.server 8000
+```
 
-No hay base de datos ni panel de administración: el archivo HTML *es* el contenido, como en un WordPress muy simplificado donde cada post es su propio archivo.
+y abre http://localhost:8000.
 
-## Cómo publicarlo en GitHub Pages con tu dominio
+## Correo
 
-1. Crea un repositorio nuevo en GitHub (puede llamarse como quieras, ej. `rogelio-alcantara`).
-2. Sube todo el contenido de esta carpeta a la raíz del repositorio (arrastra los archivos en la interfaz web de GitHub, o usa `git add . && git commit -m "sitio inicial" && git push`).
-3. Abre el archivo `CNAME` en GitHub y reemplaza `tu-dominio.com` por tu dominio real (ej. `rogelioalcantara.com`), sin `https://` ni barra final.
-4. En el repositorio: Settings → Pages → Source → selecciona la rama `main` y la carpeta `/ (root)`.
-5. En el panel de tu proveedor de dominio, agrega:
-   - Un registro `A` apuntando a las IPs de GitHub Pages (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153), o
-   - Un registro `CNAME` apuntando a `tu-usuario.github.io` si prefieres usar un subdominio (ej. `www`).
-6. Espera unos minutos a que se propague el DNS y activa "Enforce HTTPS" en Settings → Pages una vez que GitHub lo permita.
+La dirección no aparece en el HTML: va invertida en `data-e` y `assets/script.js` arma el `mailto:` en el navegador. Si el dominio pasa por Cloudflare, su Email Obfuscation añade otra capa.
 
-## La lamparita
+## Publicación
 
-El botón de la lámpara en el header cambia entre modo claro y oscuro. Guarda tu preferencia en el navegador de cada visitante (no es una configuración del sitio, sino de quien lo visita).
+GitHub Pages, rama `main`, carpeta raíz. El dominio está en `CNAME`.

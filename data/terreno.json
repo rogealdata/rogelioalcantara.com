@@ -1,0 +1,23 @@
+{
+  "_instrucciones": "Fotoensayo de trabajo de campo. Antes de añadir una foto: procesarla con 'python3 tools/fotos.py ORIGEN assets/img/terreno/PROYECTO' (borra EXIF/GPS y genera AVIF, WebP y JPG). Sólo se publican las fotos con \"publicar\": true. Nada de rostros identificables, ubicaciones precisas ni fechas exactas sin confirmación foto por foto. Ejemplo de proyecto en '_ejemplo'.",
+  "_ejemplo": {
+    "id": "slug-del-proyecto",
+    "titulo": { "en": "", "es": "", "fr": "" },
+    "periodo": "2024–2025",
+    "intro": { "en": "", "es": "", "fr": "" },
+    "fotos": [
+      {
+        "src": "assets/img/terreno/slug-del-proyecto/001",
+        "ancho": 1600,
+        "alto": 1067,
+        "publicar": false,
+        "lugar": { "en": "Highlands of Chiapas", "es": "Altos de Chiapas", "fr": "Hautes terres du Chiapas" },
+        "anio": "2025",
+        "alt": { "en": "", "es": "", "fr": "" },
+        "pie": { "en": "What we see.", "es": "Qué se ve.", "fr": "Ce que l’on voit." },
+        "aprendizaje": { "en": "What it taught.", "es": "Qué enseñó.", "fr": "Ce qu’elle a appris." }
+      }
+    ]
+  },
+  "proyectos": []
+}

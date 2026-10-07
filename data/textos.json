@@ -1,0 +1,281 @@
+{
+  "_instrucciones": "Todos los textos del sitio, por idioma. Edita aquí y corre: python3 tools/build.py. Los valores que empiezan con 'TODO' no se publican.",
+
+  "comun": {
+    "en": {
+      "saltar": "Skip to content",
+      "lampara": "Toggle light and dark mode",
+      "idiomas": "Language",
+      "menu": "Main",
+      "en_preparacion": "In preparation.",
+      "correo": "Email",
+      "correo_sin_js": "Enable JavaScript to see the email address, or write to me on LinkedIn.",
+      "contacto_titulo": "Contact",
+      "contacto_texto": "For consulting, editorial collaborations and speaking invitations.",
+      "contacto_boton": "Write to me",
+      "meses": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "fecha_formato": "{mes} {anio}"
+    },
+    "es": {
+      "saltar": "Saltar al contenido",
+      "lampara": "Cambiar entre modo claro y oscuro",
+      "idiomas": "Idioma",
+      "menu": "Principal",
+      "en_preparacion": "En preparación.",
+      "correo": "Correo",
+      "correo_sin_js": "Activa JavaScript para ver el correo, o escríbeme por LinkedIn.",
+      "contacto_titulo": "Contacto",
+      "contacto_texto": "Para consultoría, colaboraciones editoriales e invitaciones a hablar.",
+      "contacto_boton": "Escríbeme",
+      "meses": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+      "fecha_formato": "{mes} de {anio}"
+    },
+    "fr": {
+      "saltar": "Aller au contenu",
+      "lampara": "Basculer entre mode clair et mode sombre",
+      "idiomas": "Langue",
+      "menu": "Principal",
+      "en_preparacion": "En préparation.",
+      "correo": "Courriel",
+      "correo_sin_js": "Activez JavaScript pour voir l’adresse, ou écrivez-moi sur LinkedIn.",
+      "contacto_titulo": "Contact",
+      "contacto_texto": "Pour du conseil, des collaborations éditoriales et des invitations à intervenir.",
+      "contacto_boton": "M’écrire",
+      "meses": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+      "fecha_formato": "{mes} {anio}"
+    }
+  },
+
+  "nav": {
+    "en": { "escritos": "Writings", "docencia": "Teaching", "proyectos": "Projects", "teatro": "Political Theatre", "editorial": "Editorial", "terreno": "Fieldwork", "acerca": "About", "cv": "CV" },
+    "es": { "escritos": "Escritos", "docencia": "Docencia", "proyectos": "Proyectos", "teatro": "Teatro político", "editorial": "Editorial", "terreno": "Trabajo de campo", "acerca": "Acerca de", "cv": "CV" },
+    "fr": { "escritos": "Écrits", "docencia": "Enseignement", "proyectos": "Projets", "teatro": "Théâtre politique", "editorial": "Éditorial", "terreno": "Terrain", "acerca": "À propos", "cv": "CV" }
+  },
+
+  "tipos": {
+    "en": {
+      "articulo": ["Article", "Articles"],
+      "entrevista": ["Interview", "Interviews"],
+      "tesis": ["Thesis", "Theses"],
+      "ponencia": ["Talk", "Talks & seminars"],
+      "organizacion": ["Organization", "Academic organizing"]
+    },
+    "es": {
+      "articulo": ["Artículo", "Artículos"],
+      "entrevista": ["Entrevista", "Entrevistas"],
+      "tesis": ["Tesis", "Tesis"],
+      "ponencia": ["Ponencia", "Ponencias y seminarios"],
+      "organizacion": ["Organización", "Organización académica"]
+    },
+    "fr": {
+      "articulo": ["Article", "Articles"],
+      "entrevista": ["Entretien", "Entretiens"],
+      "tesis": ["Mémoire", "Mémoires"],
+      "ponencia": ["Communication", "Communications et séminaires"],
+      "organizacion": ["Organisation", "Organisation scientifique"]
+    }
+  },
+
+  "inicio": {
+    "en": {
+      "titulo_meta": "Rogelio Alcántara",
+      "descripcion": "Rogelio Alcántara — political analysis, organized crime and political risk in Mexico.",
+      "campo": "Political analysis · organized crime · political risk — Mexico",
+      "frase": "I study Mexico’s organized crime, territorial power, and political risk the way a philologist studies a difficult text — slowly, and for what is actually there.",
+      "leer": "Read the writings",
+      "recientes": "Recent writing",
+      "ver_todo": "All writings",
+      "newsletters": "Newsletters"
+    },
+    "es": {
+      "titulo_meta": "Rogelio Alcántara",
+      "descripcion": "Rogelio Alcántara — análisis político, crimen organizado y riesgo político en México.",
+      "campo": "Análisis político · crimen organizado · riesgo político — México",
+      "frase": "Estudio el crimen organizado, el poder territorial y el riesgo político de México como un filólogo estudia un texto difícil: despacio, y por lo que realmente hay.",
+      "leer": "Leer los escritos",
+      "recientes": "Escritos recientes",
+      "ver_todo": "Todos los escritos",
+      "newsletters": "Newsletters"
+    },
+    "fr": {
+      "titulo_meta": "Rogelio Alcántara",
+      "descripcion": "Rogelio Alcántara — analyse politique, crime organisé et risque politique au Mexique.",
+      "campo": "Analyse politique · crime organisé · risque politique — Mexique",
+      "frase": "J’étudie le crime organisé, le pouvoir territorial et le risque politique au Mexique comme un philologue étudie un texte difficile : lentement, et pour ce qui s’y trouve réellement.",
+      "leer": "Lire les écrits",
+      "recientes": "Écrits récents",
+      "ver_todo": "Tous les écrits",
+      "newsletters": "Newsletters"
+    }
+  },
+
+  "escritos": {
+    "en": {
+      "descripcion": "Essays, interviews, academic work and talks by Rogelio Alcántara.",
+      "intro": "Essays, interviews, academic work and talks, newest first.",
+      "filtro": "Filter by type",
+      "todo": "All",
+      "doi": "DOI"
+    },
+    "es": {
+      "descripcion": "Ensayos, entrevistas, trabajo académico y ponencias de Rogelio Alcántara.",
+      "intro": "Ensayos, entrevistas, trabajo académico y ponencias, del más reciente al más antiguo.",
+      "filtro": "Filtrar por tipo",
+      "todo": "Todo",
+      "doi": "DOI"
+    },
+    "fr": {
+      "descripcion": "Essais, entretiens, travaux universitaires et communications de Rogelio Alcántara.",
+      "intro": "Essais, entretiens, travaux universitaires et communications, du plus récent au plus ancien.",
+      "filtro": "Filtrer par type",
+      "todo": "Tout",
+      "doi": "DOI"
+    }
+  },
+
+  "secciones_en_preparacion": {
+    "en": {
+      "docencia": "Courses, seminars, workshops and teaching materials.",
+      "proyectos": "Research and professional projects.",
+      "teatro": "Work and research on theatre and politics.",
+      "editorial": "Editorial projects, editing and curation."
+    },
+    "es": {
+      "docencia": "Cursos, seminarios, talleres y materiales docentes.",
+      "proyectos": "Proyectos de investigación y profesionales.",
+      "teatro": "Trabajos e investigación sobre teatro y política.",
+      "editorial": "Proyectos editoriales, edición y curaduría."
+    },
+    "fr": {
+      "docencia": "Cours, séminaires, ateliers et supports pédagogiques.",
+      "proyectos": "Projets de recherche et projets professionnels.",
+      "teatro": "Travaux et recherches sur le théâtre et la politique.",
+      "editorial": "Projets éditoriaux, édition et curation."
+    }
+  },
+
+  "terreno": {
+    "en": {
+      "descripcion": "Fieldwork: a photo essay from anthropological projects by Rogelio Alcántara.",
+      "intro": "A photo essay from anthropological projects, finished and ongoing.",
+      "aprendizaje": "What it taught"
+    },
+    "es": {
+      "descripcion": "Trabajo de campo: fotoensayo de proyectos antropológicos de Rogelio Alcántara.",
+      "intro": "Fotoensayo de proyectos antropológicos, terminados y en curso.",
+      "aprendizaje": "Qué enseñó"
+    },
+    "fr": {
+      "descripcion": "Terrain : essai photographique tiré des projets anthropologiques de Rogelio Alcántara.",
+      "intro": "Essai photographique tiré de projets anthropologiques, achevés ou en cours.",
+      "aprendizaje": "Ce qu’elle a appris"
+    }
+  },
+
+  "acerca": {
+    "en": {
+      "descripcion": "About Rogelio Alcántara, political analyst.",
+      "frase": "I am a political analyst.",
+      "foto_alt": "Rogelio Alcántara reading and annotating printed pages at a table.",
+      "enlaces": "Elsewhere"
+    },
+    "es": {
+      "descripcion": "Acerca de Rogelio Alcántara, analista político.",
+      "frase": "Soy un analista político.",
+      "foto_alt": "Rogelio Alcántara lee y anota páginas impresas en una mesa.",
+      "enlaces": "En otros sitios"
+    },
+    "fr": {
+      "descripcion": "À propos de Rogelio Alcántara, analyste politique.",
+      "frase": "Je suis analyste politique.",
+      "foto_alt": "Rogelio Alcántara lit et annote des pages imprimées à une table.",
+      "enlaces": "Ailleurs"
+    }
+  },
+
+  "cv": {
+    "en": {
+      "titulo": "Curriculum",
+      "descripcion": "Education and professional path of Rogelio Alcántara.",
+      "formacion": "Education",
+      "trayectoria": "Professional",
+      "areas": "Fields",
+      "areas_texto": "Organized crime and territorial power · Geopolitical and political risk · Political communication and strategy.",
+      "participaciones": "Talks, seminars and academic organizing are listed under Writings.",
+      "participaciones_enlace": "See talks",
+      "completo": "Full CV",
+      "completo_texto": "The complete curriculum is available on request.",
+      "completo_boton": "Request the full CV",
+      "lineas": {
+        "formacion": [
+          ["Master in Political Studies (M2 Études politiques)", "EHESS, Paris"],
+          ["BA in Politics and Public Administration", "El Colegio de México"]
+        ],
+        "trayectoria": [
+          ["Security and political risk analyst", "Lantia Intelligence"],
+          ["Analyst", "International SOS"]
+        ]
+      }
+    },
+    "es": {
+      "titulo": "Currículum",
+      "descripcion": "Formación y trayectoria profesional de Rogelio Alcántara.",
+      "formacion": "Formación",
+      "trayectoria": "Trayectoria profesional",
+      "areas": "Áreas",
+      "areas_texto": "Crimen organizado y poder territorial · Riesgo geopolítico y político · Comunicación y estrategia política.",
+      "participaciones": "Las ponencias, seminarios y la organización académica están en Escritos.",
+      "participaciones_enlace": "Ver ponencias",
+      "completo": "CV completo",
+      "completo_texto": "El currículum completo está disponible a solicitud.",
+      "completo_boton": "Solicitar el CV completo",
+      "lineas": {
+        "formacion": [
+          ["Máster en Estudios Políticos (M2 Études politiques)", "EHESS, París"],
+          ["Licenciatura en Política y Administración Pública", "El Colegio de México"]
+        ],
+        "trayectoria": [
+          ["Analista de seguridad y riesgo político", "Lantia Intelligence"],
+          ["Analista", "International SOS"]
+        ]
+      }
+    },
+    "fr": {
+      "titulo": "Curriculum",
+      "descripcion": "Formation et parcours professionnel de Rogelio Alcántara.",
+      "formacion": "Formation",
+      "trayectoria": "Parcours professionnel",
+      "areas": "Domaines",
+      "areas_texto": "Crime organisé et pouvoir territorial · Risque géopolitique et politique · Communication et stratégie politique.",
+      "participaciones": "Les communications, séminaires et l’organisation scientifique figurent dans Écrits.",
+      "participaciones_enlace": "Voir les communications",
+      "completo": "CV complet",
+      "completo_texto": "Le curriculum complet est disponible sur demande.",
+      "completo_boton": "Demander le CV complet",
+      "lineas": {
+        "formacion": [
+          ["Master Études politiques (M2)", "EHESS, Paris"],
+          ["Licence en politique et administration publique", "El Colegio de México"]
+        ],
+        "trayectoria": [
+          ["Analyste sécurité et risque politique", "Lantia Intelligence"],
+          ["Analyste", "International SOS"]
+        ]
+      }
+    }
+  },
+
+  "enlaces": {
+    "newsletters": [
+      { "nombre": "Mitotero político", "url": "https://mitoteropolitico.substack.com/" },
+      { "nombre": "The Order of Crime", "url": "https://theorderofcrime.substack.com/" },
+      { "nombre": "Rogeal", "url": "TODO: URL propia de Substack (la recibida duplica The Order of Crime)" },
+      { "nombre": "YouTube", "url": "TODO: URL del canal de documentales", "icono": "youtube" }
+    ],
+    "perfiles": [
+      { "nombre": "Academia.edu", "url": "https://independent.academia.edu/Alc%C3%A1ntaraRogelio" },
+      { "nombre": "LinkedIn", "url": "https://www.linkedin.com/in/rogeal/" }
+    ],
+    "correo_invertido": "moc.liamg@hcraeser.laegor"
+  }
+}
