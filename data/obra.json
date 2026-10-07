@@ -1,0 +1,160 @@
+{
+  "_instrucciones": "Una entrada por obra. Orden libre: el índice se ordena solo por 'fecha' (AAAA-MM). Tipos: articulo, entrevista, tesis, ponencia, organizacion. Los títulos no se traducen; 'medio', 'lugar' y 'nota' pueden ser texto simple o {en, es, fr}. Después de editar: python3 tools/build.py",
+  "obra": [
+    {
+      "fecha": "2026-09",
+      "tipo": "tesis",
+      "titulo": "Le régime de transition vers la criminalité au Chiapas",
+      "idioma": "fr",
+      "medio": {
+        "en": "Master's thesis (M2), EHESS",
+        "es": "Tesis de maestría (M2), EHESS",
+        "fr": "Mémoire de master 2, EHESS"
+      },
+      "nota": {
+        "en": "Supervised by Gilles Bataillon. Defended; publication forthcoming.",
+        "es": "Dirigida por Gilles Bataillon. Presentada; publicación pendiente.",
+        "fr": "Sous la direction de Gilles Bataillon. Soutenu ; publication à venir."
+      }
+    },
+    {
+      "fecha": "2026-08",
+      "tipo": "ponencia",
+      "titulo": "Crime in the Jungle: A Criminal Complex in an Environmental Protection Area in Chiapas",
+      "idioma": "en",
+      "medio": "LASA Central America 2026",
+      "lugar": "San José, Costa Rica"
+    },
+    {
+      "fecha": "2026-06",
+      "tipo": "articulo",
+      "titulo": "Los Ardillos en Guerrero: fragmentación criminal y violencia",
+      "idioma": "es",
+      "medio": "Nexos",
+      "url": "https://seguridad.nexos.com.mx/los-ardillos-en-guerrero-fragmentacion-criminal-y-violencia"
+    },
+    {
+      "fecha": "2026-05",
+      "tipo": "entrevista",
+      "titulo": "El piso de nuestras certezas. Entrevista con Jean-Pierre Dupuy",
+      "idioma": "es",
+      "medio": "Conspiratio",
+      "url": "https://www.conspiratio.mx/numero-24/el-piso-de-nuestras-certezas"
+    },
+    {
+      "fecha": "2026-05",
+      "tipo": "organizacion",
+      "titulo": "Perspectives de l’Amérique Centrale",
+      "idioma": "fr",
+      "medio": "Séminaire des mexicanistes de la Maison du Mexique",
+      "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
+    },
+    {
+      "fecha": "2026-03",
+      "tipo": "articulo",
+      "titulo": "O la necesidad de hacer del mundo un teatro",
+      "idioma": "es",
+      "medio": "Cinematógrafo",
+      "nota": {
+        "en": "On <i>Hamnet</i>.",
+        "es": "Sobre <i>Hamnet</i>.",
+        "fr": "Sur <i>Hamnet</i>."
+      },
+      "url": "https://www.cinematografo.mx/hamnet"
+    },
+    {
+      "fecha": "2026-01",
+      "tipo": "ponencia",
+      "titulo": "Las culturas políticas en México",
+      "idioma": "es",
+      "medio": "Séminaire de doctorants de la Maison du Mexique",
+      "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
+    },
+    {
+      "fecha": "2025-08",
+      "tipo": "articulo",
+      "titulo": "La criminalisation comme politique : mexicanisation, violence et disparus",
+      "idioma": "fr",
+      "medio": "Carnets d’études politiques",
+      "url": "https://carnetudpo.hypotheses.org/3390",
+      "doi": "10.58079/14hdb"
+    },
+    {
+      "fecha": "2025-08",
+      "tipo": "entrevista",
+      "titulo": "Las masas ya no existen. Entrevista con Marcel Gauchet",
+      "idioma": "es",
+      "medio": "Nexos",
+      "url": "https://www.nexos.com.mx/?p=85483"
+    },
+    {
+      "fecha": "2025-08",
+      "tipo": "ponencia",
+      "titulo": "La violencia en el cambio de régimen",
+      "idioma": "es",
+      "medio": "XIII Congreso Internacional de Ciencia Política",
+      "lugar": { "en": "Mexico City", "es": "Ciudad de México", "fr": "Mexico" }
+    },
+    {
+      "fecha": "2025-07",
+      "tipo": "articulo",
+      "titulo": "La violencia en el cambio de régimen",
+      "idioma": "es",
+      "medio": "Nexos",
+      "url": "https://www.nexos.com.mx/?p=85163"
+    },
+    {
+      "fecha": "2025-04",
+      "tipo": "ponencia",
+      "titulo": "La criminalisation comme politique. Mexicanisation, violence et disparus",
+      "idioma": "fr",
+      "medio": "9e Journée d’étude de la mention Études politiques"
+    },
+    {
+      "fecha": "2024-12",
+      "tipo": "ponencia",
+      "titulo": "La criminalización de la política. Seguridad, violencia política y desaparecidos",
+      "idioma": "es",
+      "medio": "Séminaire de doctorants de la Maison du Mexique",
+      "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
+    },
+    {
+      "fecha": "2024-01",
+      "tipo": "articulo",
+      "titulo": "A Dios lo que es de Dios, al Diablo lo que es del Diablo",
+      "idioma": "es",
+      "medio": "Nexos",
+      "nota": {
+        "en": "Notes on <i>Para una teología política del crimen organizado</i>, by Claudio Lomnitz.",
+        "es": "Apunte sobre <i>Para una teología política del crimen organizado</i>, de Claudio Lomnitz.",
+        "fr": "Note sur <i>Para una teología política del crimen organizado</i>, de Claudio Lomnitz."
+      },
+      "url": "https://redaccion.nexos.com.mx/a-dios-lo-que-es-de-dios-y-al-diablo-lo-que-es-del-diablo-apunte-sobre-para-una-teologia-del-crimen-organizado-de-claudio-lomnitz/"
+    },
+    {
+      "fecha": "2022",
+      "tipo": "tesis",
+      "titulo": "El estilo neuronal, el mito de la cerebralidad del espíritu",
+      "idioma": "es",
+      "medio": {
+        "en": "Undergraduate thesis, El Colegio de México",
+        "es": "Tesis de licenciatura, El Colegio de México",
+        "fr": "Mémoire de licence, El Colegio de México"
+      },
+      "url": "https://repositorio.colmex.mx/concern/theses/sq87bw64p?locale=es"
+    },
+    {
+      "fecha": "2015",
+      "fecha_texto": "2015–2016",
+      "tipo": "organizacion",
+      "titulo": "Seminario Permanente de Política y Administración Pública",
+      "idioma": "es",
+      "medio": {
+        "en": "General coordinator",
+        "es": "Coordinador general",
+        "fr": "Coordinateur général"
+      },
+      "lugar": { "en": "Mexico City", "es": "Ciudad de México", "fr": "Mexico" }
+    }
+  ]
+}
