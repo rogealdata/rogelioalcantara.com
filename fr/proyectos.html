@@ -55,11 +55,11 @@
   <nav class="site-nav" aria-label="Principal">
     <a href="escritos.html">Écrits</a>
     <a href="docencia.html">Enseignement</a>
-    <a href="proyectos.html" aria-current="page">Projets</a>
-    <a href="teatro-politico.html">Théâtre politique</a>
+    <a href="teatro-politico.html">Théâtre</a>
     <a href="editorial.html">Éditorial</a>
     <a href="trabajo-de-campo.html">Terrain</a>
-    <a href="acerca.html">À propos</a>
+    <a href="proyectos.html" aria-current="page">Projets</a>
+    <a href="acerca.html">Curriculum</a>
   </nav>
 </header>
 <main id="contenido">
@@ -70,11 +70,25 @@
 <!-- TODO: contenido confirmado de esta sección (títulos, instituciones, fechas, descripciones). -->
 <p class="placeholder">En préparation.</p>
 </main>
-<footer class="site">
+<footer class="site" id="contacto">
+  <div class="card">
+    <picture>
+      <source type="image/avif" srcset="../assets/img/cara-160.avif 1x, ../assets/img/cara-320.avif 2x">
+      <source type="image/webp" srcset="../assets/img/cara-160.webp 1x, ../assets/img/cara-320.webp 2x">
+      <img class="avatar" src="../assets/img/cara-320.jpg" width="80" height="80" alt="" loading="lazy" decoding="async">
+    </picture>
+    <div class="card-text">
+      <p class="card-name">Rogelio Alcántara</p>
+      <p class="card-note">Pour du conseil, des collaborations éditoriales et des invitations à intervenir.</p>
+      <p class="card-mail"><span data-e-texto="moc.liamg@hcraeser.laegor"></span></p>
+      <noscript><p class="small">Activez JavaScript pour voir l’adresse, ou écrivez-moi sur LinkedIn.</p></noscript>
+    </div>
+    <a class="btn" data-e="moc.liamg@hcraeser.laegor" href="#contacto">M’écrire</a>
+  </div>
   <ul class="social" aria-label="Profils">
     <li><a href="https://www.instagram.com/rogeal/" rel="me noopener" aria-label="Instagram" title="Instagram"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a></li>
     <li><a href="https://www.linkedin.com/in/rogeal/" rel="me noopener" aria-label="LinkedIn" title="LinkedIn"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 10.5v6M8 7.6v.1M11.5 16.5v-6M11.5 13c0-1.6 1-2.6 2.3-2.6s2.2.9 2.2 2.6v3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></a></li>
-    <!-- TODO: URL del canal de documentales (YouTube) -->
+    <li><span class="soon" role="img" aria-label="YouTube (bientôt)" title="YouTube (bientôt)"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="5.5" width="19" height="13" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg></span></li>
     <li><a href="https://independent.academia.edu/Alc%C3%A1ntaraRogelio" rel="me noopener" aria-label="Academia.edu" title="Academia.edu"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 9.5 12 5l9.5 4.5L12 14z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.5 11.6v4c1.4 1.5 3.3 2.3 5.5 2.3s4.1-.8 5.5-2.3v-4M21.5 9.5v5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></a></li>
   </ul>
 </footer>
