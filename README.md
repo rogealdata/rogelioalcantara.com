@@ -18,7 +18,7 @@ Después de editar, regenera las páginas:
 python3 tools/build.py
 ```
 
-Sólo necesita Python 3 (sin instalar nada). Escribe los `.html` de los tres idiomas, el `sitemap.xml` y las etiquetas `hreflang`/Open Graph. Los `.html` generados se versionan; no los edites a mano porque el siguiente build los sobrescribe.
+Sólo necesita Python 3 (sin instalar nada). Si encuentra Google Chrome, además regenera los PDF del CV (`assets/cv/rogelio-alcantara-cv-*.pdf`) con los mismos datos, así que el CV descargable siempre coincide con el sitio. Escribe los `.html` de los tres idiomas, el `sitemap.xml` y las etiquetas `hreflang`/Open Graph. Los `.html` generados se versionan; no los edites a mano porque el siguiente build los sobrescribe.
 
 ### Añadir una obra
 

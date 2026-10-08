@@ -27,7 +27,8 @@
         "December"
       ],
       "fecha_formato": "{mes} {anio}",
-      "redes": "Profiles"
+      "redes": "Profiles",
+      "youtube_pronto": "YouTube (coming soon)"
     },
     "es": {
       "saltar": "Saltar al contenido",
@@ -55,7 +56,8 @@
         "diciembre"
       ],
       "fecha_formato": "{mes} de {anio}",
-      "redes": "Perfiles"
+      "redes": "Perfiles",
+      "youtube_pronto": "YouTube (próximamente)"
     },
     "fr": {
       "saltar": "Aller au contenu",
@@ -83,7 +85,8 @@
         "décembre"
       ],
       "fecha_formato": "{mes} {anio}",
-      "redes": "Profils"
+      "redes": "Profils",
+      "youtube_pronto": "YouTube (bientôt)"
     }
   },
   "nav": {
@@ -91,7 +94,7 @@
       "escritos": "Writings",
       "docencia": "Teaching",
       "proyectos": "Projects",
-      "teatro": "Political Theatre",
+      "teatro": "Theatre",
       "editorial": "Editorial",
       "terreno": "Fieldwork",
       "acerca": "About"
@@ -100,7 +103,7 @@
       "escritos": "Escritos",
       "docencia": "Docencia",
       "proyectos": "Proyectos",
-      "teatro": "Teatro político",
+      "teatro": "Teatro",
       "editorial": "Editorial",
       "terreno": "Trabajo de campo",
       "acerca": "Acerca de"
@@ -109,7 +112,7 @@
       "escritos": "Écrits",
       "docencia": "Enseignement",
       "proyectos": "Projets",
-      "teatro": "Théâtre politique",
+      "teatro": "Théâtre",
       "editorial": "Éditorial",
       "terreno": "Terrain",
       "acerca": "À propos"
@@ -135,7 +138,7 @@
       ],
       "organizacion": [
         "Organization",
-        "Academic organizing"
+        "Academic"
       ]
     },
     "es": {
@@ -157,7 +160,7 @@
       ],
       "organizacion": [
         "Organización",
-        "Organización académica"
+        "Académico"
       ]
     },
     "fr": {
@@ -179,7 +182,7 @@
       ],
       "organizacion": [
         "Organisation",
-        "Organisation scientifique"
+        "Académique"
       ]
     }
   },
@@ -188,21 +191,21 @@
       "titulo_meta": "Rogelio Alcántara",
       "descripcion": "Rogelio Alcántara — political analysis, organized crime and political risk in Mexico.",
       "frase": "A political analyst.",
-      "newsletters": "Newsletters",
+      "newsletters": "Substacks",
       "foto_alt": "Rogelio Alcántara, seen from behind, facing a large curved wall of falling water."
     },
     "es": {
       "titulo_meta": "Rogelio Alcántara",
       "descripcion": "Rogelio Alcántara — análisis político, crimen organizado y riesgo político en México.",
       "frase": "Un analista político.",
-      "newsletters": "Newsletters",
+      "newsletters": "Substacks",
       "foto_alt": "Rogelio Alcántara, de espaldas, frente a una gran cortina de agua curva."
     },
     "fr": {
       "titulo_meta": "Rogelio Alcántara",
       "descripcion": "Rogelio Alcántara — analyse politique, crime organisé et risque politique au Mexique.",
       "frase": "Un analyste politique.",
-      "newsletters": "Newsletters",
+      "newsletters": "Substacks",
       "foto_alt": "Rogelio Alcántara, de dos, face à un grand rideau d’eau incurvé."
     }
   },
@@ -294,11 +297,6 @@
       "trayectoria": "Professional",
       "areas": "Fields",
       "areas_texto": "Organized crime and territorial power · Geopolitical and political risk · Political communication and strategy.",
-      "participaciones": "Talks, seminars and academic organizing are listed under Writings.",
-      "participaciones_enlace": "See talks",
-      "completo": "Full CV",
-      "completo_texto": "The complete curriculum is available on request.",
-      "completo_boton": "Request the full CV",
       "lineas": {
         "formacion": [
           [
@@ -320,7 +318,13 @@
             "International SOS"
           ]
         ]
-      }
+      },
+      "descargar": "Download CV (PDF)",
+      "publicaciones": "Publications",
+      "tesis": "Theses",
+      "ponencias": "Talks and seminars",
+      "academico": "Academic",
+      "nombre_cv": "Curriculum vitae"
     },
     "es": {
       "titulo": "Currículum",
@@ -329,11 +333,6 @@
       "trayectoria": "Trayectoria profesional",
       "areas": "Áreas",
       "areas_texto": "Crimen organizado y poder territorial · Riesgo geopolítico y político · Comunicación y estrategia política.",
-      "participaciones": "Las ponencias, seminarios y la organización académica están en Escritos.",
-      "participaciones_enlace": "Ver ponencias",
-      "completo": "CV completo",
-      "completo_texto": "El currículum completo está disponible a solicitud.",
-      "completo_boton": "Solicitar el CV completo",
       "lineas": {
         "formacion": [
           [
@@ -355,7 +354,13 @@
             "International SOS"
           ]
         ]
-      }
+      },
+      "descargar": "Descargar CV (PDF)",
+      "publicaciones": "Publicaciones",
+      "tesis": "Tesis",
+      "ponencias": "Ponencias y seminarios",
+      "academico": "Académico",
+      "nombre_cv": "Currículum"
     },
     "fr": {
       "titulo": "Curriculum",
@@ -364,11 +369,6 @@
       "trayectoria": "Parcours professionnel",
       "areas": "Domaines",
       "areas_texto": "Crime organisé et pouvoir territorial · Risque géopolitique et politique · Communication et stratégie politique.",
-      "participaciones": "Les communications, séminaires et l’organisation scientifique figurent dans Écrits.",
-      "participaciones_enlace": "Voir les communications",
-      "completo": "CV complet",
-      "completo_texto": "Le curriculum complet est disponible sur demande.",
-      "completo_boton": "Demander le CV complet",
       "lineas": {
         "formacion": [
           [
@@ -390,7 +390,13 @@
             "International SOS"
           ]
         ]
-      }
+      },
+      "descargar": "Télécharger le CV (PDF)",
+      "publicaciones": "Publications",
+      "tesis": "Mémoires",
+      "ponencias": "Communications et séminaires",
+      "academico": "Académique",
+      "nombre_cv": "Curriculum vitae"
     }
   },
   "enlaces": {

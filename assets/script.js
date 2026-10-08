@@ -37,6 +37,11 @@
     }
   }
 
+  var texts = document.querySelectorAll("[data-e-texto]");
+  for(var t = 0; t < texts.length; t++){
+    texts[t].textContent = texts[t].getAttribute("data-e-texto").split("").reverse().join("");
+  }
+
   // Filtro por tipo en el archivo de obra. Sin JS la lista completa sigue visible.
   var bar = document.querySelector(".filters");
   var archive = document.querySelector("[data-archivo]");

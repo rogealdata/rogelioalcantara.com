@@ -10,6 +10,9 @@ falta cuando cambias algo en data/.
 import html
 import json
 import os
+import shutil
+import subprocess
+from urllib.parse import unquote
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 URL_BASE = "https://rogelioalcantara.com/"
@@ -22,10 +25,10 @@ NOMBRE_IDIOMA = {"en": "English", "es": "Español", "fr": "Français"}
 PAGINAS = [
     ("escritos", "escritos.html"),
     ("docencia", "docencia.html"),
-    ("proyectos", "proyectos.html"),
     ("teatro", "teatro-politico.html"),
     ("editorial", "editorial.html"),
     ("terreno", "trabajo-de-campo.html"),
+    ("proyectos", "proyectos.html"),
     ("acerca", "acerca.html"),
 ]
 ARCHIVO = dict(PAGINAS, inicio="index.html")
@@ -190,24 +193,20 @@ def correo(idioma, clase="", texto=None):
     etiqueta = texto or c["contacto_boton"]
     clase = f' class="{clase}"' if clase else ""
     return (f'<a{clase} data-e="{T["enlaces"]["correo_invertido"]}" '
-            f'href="acerca.html#contacto">{e(etiqueta)}</a>')
+            f'href="#contacto">{e(etiqueta)}</a>')
 
 
-def bloque_contacto(idioma, h="h2"):
-    c = T["comun"][idioma]
-    return f"""<section class="contact" id="contacto" aria-labelledby="contacto-titulo">
-  <{h} class="kicker" id="contacto-titulo">{e(c['contacto_titulo'])}</{h}>
-  <p class="contact-text">{e(c['contacto_texto'])}</p>
-  <p>{correo(idioma, "btn")}</p>
-  <noscript><p class="small">{e(c['correo_sin_js'])}</p></noscript>
-</section>"""
-
-
-def iconos_perfiles():
+def iconos_perfiles(idioma):
     items = []
     for p in T["enlaces"]["perfiles"]:
         if pendiente(p["url"]):
-            items.append(f"<!-- {e(p['url'])} ({e(p['nombre'])}) -->")
+            # Sin URL todavía: icono visible pero sin enlace.
+            if p["icono"] == "youtube":
+                pronto = e(T["comun"][idioma]["youtube_pronto"])
+                items.append(f'<li><span class="soon" role="img" aria-label="{pronto}" title="{pronto}">'
+                             f'{ICONOS["youtube"]}</span></li>')
+            else:
+                items.append(f"<!-- {e(p['url'])} ({e(p['nombre'])}) -->")
             continue
         items.append(f'<li><a href="{e(p["url"])}" rel="me noopener" aria-label="{e(p["nombre"])}" '
                      f'title="{e(p["nombre"])}">{ICONOS[p["icono"]]}</a></li>')
@@ -216,9 +215,24 @@ def iconos_perfiles():
 
 def pie(idioma, rel):
     c = T["comun"][idioma]
-    return f"""<footer class="site">
+    cara = rel + "assets/img/cara"
+    return f"""<footer class="site" id="contacto">
+  <div class="card">
+    <picture>
+      <source type="image/avif" srcset="{cara}-160.avif 1x, {cara}-320.avif 2x">
+      <source type="image/webp" srcset="{cara}-160.webp 1x, {cara}-320.webp 2x">
+      <img class="avatar" src="{cara}-320.jpg" width="80" height="80" alt="" loading="lazy" decoding="async">
+    </picture>
+    <div class="card-text">
+      <p class="card-name">Rogelio Alcántara</p>
+      <p class="card-note">{e(c['contacto_texto'])}</p>
+      <p class="card-mail"><span data-e-texto="{T["enlaces"]["correo_invertido"]}"></span></p>
+      <noscript><p class="small">{e(c['correo_sin_js'])}</p></noscript>
+    </div>
+    {correo(idioma, "btn")}
+  </div>
   <ul class="social" aria-label="{e(c['redes'])}">
-    {iconos_perfiles()}
+    {iconos_perfiles(idioma)}
   </ul>
 </footer>
 <script src="{rel}assets/script.js" defer></script>
@@ -271,9 +285,9 @@ def pagina_escritos(idioma):
     s = T["escritos"][idioma]
     tipos = T["tipos"][idioma]
     presentes = [t for t in tipos if any(i["tipo"] == t for i in OBRA)]
-    botones = [f'<button type="button" data-filtro="todo" aria-pressed="true">{e(s["todo"])}</button>']
-    botones += [f'<button type="button" data-filtro="{t}" aria-pressed="false">{e(tipos[t][1])}</button>'
-                for t in presentes]
+    botones = [f'<button type="button" data-filtro="{t}" aria-pressed="false">{e(tipos[t][1])}</button>'
+               for t in presentes]
+    botones.append(f'<button type="button" class="all" data-filtro="todo" aria-pressed="true">{e(s["todo"])}</button>')
     grupos, actual = [], None
     for item in obra_ordenada():
         anio = item["fecha"][:4]
@@ -327,7 +341,7 @@ def pagina_inicio(idioma):
     {retrato(rel + "assets/img/inicio", s['foto_alt'], "(max-width: 760px) 92vw, 340px")}
   </figure>
   <div class="home-text">
-    <h1 id="nombre">Rogelio Alcántara</h1>
+    <h1 id="nombre" class="sr-only">Rogelio Alcántara</h1>
     <p class="statement">{e(s['frase'])}</p>
     <div class="channels">
       <h2 class="kicker">{e(s['newsletters'])}</h2>
@@ -395,47 +409,146 @@ def pagina_terreno(idioma):
     return pagina(idioma, "terreno", titulo_pagina(idioma, "terreno"), s["descripcion"], cuerpo)
 
 
+def nombre_pdf(idioma):
+    return f"assets/cv/rogelio-alcantara-cv-{idioma}.pdf"
+
+
+def secciones_cv(idioma):
+    """Secciones del CV, construidas desde data/: se actualizan solas."""
+    cv = T["cv"][idioma]
+
+    def lineas(clave):
+        return [f'<span class="role">{e(rol)}</span> <span class="org">{e(org)}</span>'
+                for rol, org in cv["lineas"][clave]]
+
+    def obras(*tipos):
+        filas = []
+        for i in obra_ordenada():
+            if i["tipo"] not in tipos:
+                continue
+            titulo = e(i["titulo"])
+            if i.get("url"):
+                titulo = f'<a href="{e(i["url"])}" rel="noopener">{titulo}</a>'
+            meta = ", ".join(x for x in (e(loc(i.get("medio"), idioma)), e(loc(i.get("lugar"), idioma))) if x)
+            anio = e(i.get("fecha_texto") or i["fecha"][:4])
+            filas.append(f'<span class="cv-year">{anio}</span> '
+                         f'<span><cite lang="{i["idioma"]}">{titulo}</cite>. {meta}.</span>')
+        return filas
+
+    return [
+        ("formacion", cv["formacion"], lineas("formacion")),
+        ("trayectoria", cv["trayectoria"], lineas("trayectoria")),
+        ("publicaciones", cv["publicaciones"], obras("articulo", "entrevista")),
+        ("tesis", cv["tesis"], obras("tesis")),
+        ("ponencias", cv["ponencias"], obras("ponencia")),
+        ("academico", cv["academico"], obras("organizacion")),
+        ("areas", cv["areas"], [e(x.strip(" .")) for x in cv["areas_texto"].split("·")]),
+    ]
+
+
 def pagina_acerca(idioma):
     s = T["acerca"][idioma]
     cv = T["cv"][idioma]
     rel = "../" if CARPETA[idioma] else ""
-
-    def lineas(clave):
-        filas = "\n".join(
-            f'  <li><span class="role">{e(rol)}</span> <span class="org">{e(org)}</span></li>'
-            for rol, org in cv["lineas"][clave]
-        )
-        return f'<ul class="cv-lines">\n{filas}\n</ul>'
-
-    cuerpo = f"""<div class="about">
+    bloques = []
+    for clave, titulo, filas in secciones_cv(idioma):
+        if not filas:
+            continue
+        lis = "\n".join(f"    <li>{f}</li>" for f in filas)
+        bloques.append(f"""<details class="cv-block" id="cv-{clave}" open>
+  <summary><h2>{e(titulo)}</h2><span class="count">{len(filas)}</span></summary>
+  <ul class="cv-lines">
+{lis}
+  </ul>
+</details>""")
+    cuerpo = f"""<h1 class="sr-only">{e(T['nav'][idioma]['acerca'])}</h1>
+<div class="about">
   <figure class="frame">
     {retrato(rel + "assets/img/rogelio-alcantara", s['foto_alt'], "(max-width: 760px) 92vw, 340px")}
   </figure>
   <div class="about-text">
-    <h1>{e(T['nav'][idioma]['acerca'])}</h1>
     <p class="statement">{e(s['frase'])}</p>
+    <p class="about-actions"><a class="btn" href="{rel}{nombre_pdf(idioma)}" download>{e(cv['descargar'])}</a></p>
   </div>
 </div>
 
-<section id="cv" aria-labelledby="formacion">
-  <h2 class="kicker" id="formacion">{e(cv['formacion'])}</h2>
-  {lineas('formacion')}
-</section>
-
-<section aria-labelledby="trayectoria">
-  <h2 class="kicker" id="trayectoria">{e(cv['trayectoria'])}</h2>
-  {lineas('trayectoria')}
-</section>
-
-<section aria-labelledby="areas">
-  <h2 class="kicker" id="areas">{e(cv['areas'])}</h2>
-  <p class="prose">{e(cv['areas_texto'])}</p>
-  <p class="prose">{e(cv['participaciones'])} <a class="link-arrow" href="escritos.html#ponencia">{e(cv['participaciones_enlace'])} <span aria-hidden="true">→</span></a></p>
-  <p class="prose">{e(cv['completo_texto'])}</p>
-</section>
-
-{bloque_contacto(idioma)}"""
+<section class="cv" id="cv" aria-label="{e(cv['nombre_cv'])}">
+{chr(10).join(bloques)}
+</section>"""
     return pagina(idioma, "acerca", titulo_pagina(idioma, "acerca"), s["descripcion"], cuerpo, "profile")
+
+
+def pagina_cv_imprimible(idioma):
+    """Versión para PDF: una sola columna, sin menú. La imprime Chrome."""
+    s = T["acerca"][idioma]
+    cv = T["cv"][idioma]
+    bloques = []
+    for _, titulo, filas in secciones_cv(idioma):
+        if filas:
+            lis = "\n".join(f"<li>{f}</li>" for f in filas)
+            bloques.append(f"<section><h2>{e(titulo)}</h2><ul>\n{lis}\n</ul></section>")
+    perfiles = " · ".join(e(unquote(p["url"]).replace("https://", "").replace("www.", "").rstrip("/"))
+                          for p in T["enlaces"]["perfiles"] if not pendiente(p["url"]))
+    return f"""<!doctype html>
+<html lang="{idioma}">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<title>Rogelio Alcántara — {e(cv['nombre_cv'])}</title>
+<style>
+@font-face{{font-family:'EB Garamond';font-weight:400;src:url('../fonts/eb-garamond-latin-400-normal.woff2') format('woff2')}}
+@font-face{{font-family:'EB Garamond';font-weight:400;font-style:italic;src:url('../fonts/eb-garamond-latin-400-italic.woff2') format('woff2')}}
+@font-face{{font-family:'EB Garamond';font-weight:500;src:url('../fonts/eb-garamond-latin-500-normal.woff2') format('woff2')}}
+@page{{size:A4;margin:18mm 20mm}}
+body{{font-family:'EB Garamond',Georgia,serif;color:#241f18;font-size:10.5pt;line-height:1.45;margin:0}}
+h1{{font-weight:400;font-size:24pt;margin:0}}
+.sub{{font-style:italic;color:#5c5346;font-size:13pt;margin:2pt 0 8pt}}
+.contact{{color:#5c5346;font-size:9.5pt;border-bottom:.5pt solid #b9b0a0;padding-bottom:10pt;margin:0 0 4pt}}
+h2{{font-weight:400;font-style:italic;text-transform:lowercase;color:#6b2129;font-size:12pt;margin:14pt 0 4pt}}
+ul{{list-style:none;margin:0;padding:0}}
+li{{display:flex;gap:10pt;padding:2pt 0;break-inside:avoid}}
+.cv-year{{flex:0 0 46pt;color:#5c5346}}
+.role{{font-weight:500}} .org{{font-style:italic;color:#5c5346}}
+a{{color:inherit;text-decoration:none}}
+cite{{font-style:italic}}
+</style>
+</head>
+<body>
+<h1>Rogelio Alcántara</h1>
+<p class="sub">{e(T['inicio'][idioma]['frase'])}</p>
+<p class="contact"><span data-e-texto="{T["enlaces"]["correo_invertido"]}"></span> · rogelioalcantara.com · {perfiles}</p>
+{chr(10).join(bloques)}
+<script>document.querySelectorAll("[data-e-texto]").forEach(function(n){{n.textContent=n.getAttribute("data-e-texto").split("").reverse().join("")}});</script>
+</body>
+</html>
+"""
+
+
+def buscar_chrome():
+    candidatos = [
+        os.environ.get("CHROME"),
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "/Applications/Chromium.app/Contents/MacOS/Chromium",
+        shutil.which("google-chrome"), shutil.which("chromium"),
+        shutil.which("chromium-browser"), shutil.which("chrome"),
+    ]
+    return next((c for c in candidatos if c and os.path.exists(c)), None)
+
+
+def generar_pdfs():
+    chrome = buscar_chrome()
+    if not chrome:
+        print("Aviso: no encontré Chrome; los PDF del CV no se actualizaron (usa CHROME=/ruta/al/navegador).")
+        return
+    for idioma in IDIOMAS:
+        html_cv = os.path.join(RAIZ, "assets", "cv", f"{idioma}.html")
+        destino = os.path.join(RAIZ, nombre_pdf(idioma))
+        orden = [chrome, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
+                 "--virtual-time-budget=3000", f"--print-to-pdf={destino}", "file://" + html_cv]
+        if hasattr(os, "geteuid") and os.geteuid() == 0:
+            orden.insert(1, "--no-sandbox")
+        subprocess.run(orden, check=True, capture_output=True)
+    print("PDF del CV actualizados en assets/cv/")
 
 
 def redireccion(destino):
@@ -473,11 +586,13 @@ def main():
             hechas.append(escribir(base + ARCHIVO[clave], pagina_en_preparacion(idioma, clave)))
         hechas.append(escribir(base + ARCHIVO["terreno"], pagina_terreno(idioma)))
         hechas.append(escribir(base + ARCHIVO["acerca"], pagina_acerca(idioma)))
+        escribir(f"assets/cv/{idioma}.html", pagina_cv_imprimible(idioma))
         for viejo, nuevo in REDIRECCIONES.items():
             subir = "../" * viejo.count("/")
             hechas.append(escribir(base + viejo, redireccion(subir + nuevo)))
     escribir("sitemap.xml", sitemap())
     print(f"{len(hechas)} páginas generadas + sitemap.xml")
+    generar_pdfs()
 
 
 def sitemap():

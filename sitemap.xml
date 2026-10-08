@@ -55,24 +55,6 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/docencia.html"/>
   </url>
   <url>
-    <loc>https://rogelioalcantara.com/proyectos.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/proyectos.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/proyectos.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/proyectos.html"/>
-  </url>
-  <url>
-    <loc>https://rogelioalcantara.com/es/proyectos.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/proyectos.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/proyectos.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/proyectos.html"/>
-  </url>
-  <url>
-    <loc>https://rogelioalcantara.com/fr/proyectos.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/proyectos.html"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/proyectos.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/proyectos.html"/>
-  </url>
-  <url>
     <loc>https://rogelioalcantara.com/teatro-politico.html</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/teatro-politico.html"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/teatro-politico.html"/>
@@ -125,6 +107,24 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/trabajo-de-campo.html"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/trabajo-de-campo.html"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/trabajo-de-campo.html"/>
+  </url>
+  <url>
+    <loc>https://rogelioalcantara.com/proyectos.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/proyectos.html"/>
+  </url>
+  <url>
+    <loc>https://rogelioalcantara.com/es/proyectos.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/proyectos.html"/>
+  </url>
+  <url>
+    <loc>https://rogelioalcantara.com/fr/proyectos.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rogelioalcantara.com/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://rogelioalcantara.com/es/proyectos.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://rogelioalcantara.com/fr/proyectos.html"/>
   </url>
   <url>
     <loc>https://rogelioalcantara.com/acerca.html</loc>
