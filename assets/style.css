@@ -125,6 +125,7 @@ main > :first-child{ border-top: none; }
 main > section > h2.kicker{ margin-bottom: 22px; }
 
 .page-head{ padding-block: 64px 36px; }
+.page-head h1, .project h2{ text-transform: lowercase; }
 .page-head h1{ font-size: clamp(2rem, 4.2vw, 2.8rem); }
 .lede{ font-style: italic; color: var(--ink-dim); font-size: 1.2rem; max-width: 52ch; margin-top: 16px; }
 .prose{ max-width: var(--measure); }
