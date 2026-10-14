@@ -7,6 +7,7 @@ Sin dependencias (sólo la biblioteca estándar de Python 3.8+). El HTML generad
 se versiona tal cual, así que el sitio se sirve sin build: este script sólo hace
 falta cuando cambias algo en data/.
 """
+import hashlib
 import html
 import json
 import os
@@ -33,6 +34,9 @@ PAGINAS = [
 ]
 ARCHIVO = dict(PAGINAS, inicio="index.html")
 
+# Agrupación visual del menú: obra, práctica, perfil. El contacto va aparte, al final.
+GRUPOS_MENU = [("escritos", "proyectos", "terreno"), ("docencia", "teatro", "editorial"), ("acerca",)]
+
 # Rutas antiguas que ya no existen: se redirigen para no romper enlaces.
 REDIRECCIONES = {"escritos/cartografia-chiapas.html": "escritos.html", "cv.html": "acerca.html#cv"}
 
@@ -42,6 +46,12 @@ def cargar(nombre):
         return json.load(f)
 
 
+def _version_css():
+    with open(os.path.join(RAIZ, "assets", "style.css"), "rb") as f:
+        return hashlib.md5(f.read()).hexdigest()[:8]
+
+
+VERSION_CSS = _version_css()
 T = cargar("textos.json")
 OBRA = cargar("obra.json")["obra"]
 TERRENO = cargar("terreno.json")["proyectos"]
@@ -144,7 +154,7 @@ def head(idioma, clave, titulo, descripcion, rel, tipo_og="website"):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{rel}assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="{rel}assets/fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{rel}assets/style.css">
+<link rel="stylesheet" href="{rel}assets/style.css?v={VERSION_CSS}">
 {TEMA_INLINE}
 </head>"""
 
@@ -152,10 +162,15 @@ def head(idioma, clave, titulo, descripcion, rel, tipo_og="website"):
 def cabecera(idioma, clave, rel):
     nav = T["nav"][idioma]
     c = T["comun"][idioma]
-    enlaces = []
-    for k, archivo in PAGINAS:
+    def enlace(k):
         actual = ' aria-current="page"' if k == clave else ""
-        enlaces.append(f'<a href="{archivo}"{actual}>{e(nav[k])}</a>')
+        return f'<a href="{ARCHIVO[k]}"{actual}>{e(nav[k])}</a>'
+
+    grupos = "\n    ".join(
+        '<span class="group">' + "".join(enlace(k) for k in grupo) + "</span>" for grupo in GRUPOS_MENU
+    )
+    destino = f"{ARCHIVO['acerca']}#contacto" if clave == "inicio" else "#contacto"
+    contacto = f'<a class="contact-link" href="{destino}">{e(nav["contacto"])}</a>'
     idiomas = []
     for l in IDIOMAS:
         destino = rel_entre(idioma, l) + ARCHIVO[clave]
@@ -176,7 +191,8 @@ def cabecera(idioma, clave, rel):
     </div>
   </div>
   <nav class="site-nav" aria-label="{e(c['menu'])}">
-    {chr(10).join('    ' + a for a in enlaces).strip()}
+    {grupos}
+    {contacto}
   </nav>
 </header>
 """
@@ -201,19 +217,19 @@ def iconos_perfiles(idioma):
     for p in T["enlaces"]["perfiles"]:
         if pendiente(p["url"]):
             # Sin URL todavía: icono visible pero sin enlace.
-            if p["icono"] == "youtube":
-                pronto = e(T["comun"][idioma]["youtube_pronto"])
-                items.append(f'<li><span class="soon" role="img" aria-label="{pronto}" title="{pronto}">'
-                             f'{ICONOS["youtube"]}</span></li>')
-            else:
-                items.append(f"<!-- {e(p['url'])} ({e(p['nombre'])}) -->")
+            items.append(f"<!-- {e(p['url'])} ({e(p['nombre'])}) -->")
             continue
         items.append(f'<li><a href="{e(p["url"])}" rel="me noopener" aria-label="{e(p["nombre"])}" '
                      f'title="{e(p["nombre"])}">{ICONOS[p["icono"]]}</a></li>')
     return "\n    ".join(items)
 
 
-def pie(idioma, rel):
+def pie(idioma, rel, completo=True):
+    if not completo:
+        return f"""<script src="{rel}assets/script.js" defer></script>
+</body>
+</html>
+"""
     c = T["comun"][idioma]
     cara = rel + "assets/img/cara"
     return f"""<footer class="site" id="contacto">
@@ -226,7 +242,7 @@ def pie(idioma, rel):
     <div class="card-text">
       <p class="card-name">Rogelio Alcántara</p>
       <p class="card-note">{e(c['contacto_texto'])}</p>
-      <p class="card-mail"><span data-e-texto="{T["enlaces"]["correo_invertido"]}"></span></p>
+      <p class="card-mail"><a data-e="{T["enlaces"]["correo_invertido"]}" href="#contacto"><span data-e-texto="{T["enlaces"]["correo_invertido"]}"></span></a></p>
       <noscript><p class="small">{e(c['correo_sin_js'])}</p></noscript>
     </div>
     {correo(idioma, "btn")}
@@ -241,12 +257,12 @@ def pie(idioma, rel):
 """
 
 
-def pagina(idioma, clave, titulo, descripcion, cuerpo, tipo_og="website"):
+def pagina(idioma, clave, titulo, descripcion, cuerpo, tipo_og="website", con_pie=True):
     rel = "../" if CARPETA[idioma] else ""
     return (head(idioma, clave, titulo, descripcion, rel, tipo_og) + "\n"
             + cabecera(idioma, clave, rel)
             + '<main id="contenido">\n' + cuerpo + "\n</main>\n"
-            + pie(idioma, rel))
+            + pie(idioma, rel, con_pie))
 
 
 def titulo_pagina(idioma, clave):
@@ -333,25 +349,39 @@ def retrato(ruta, alt, sizes, prioridad=True):
     </picture>"""
 
 
+SUBSTACK_LOGO = ('<svg class="logo" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+                 '<path fill="currentColor" d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 '
+                 '22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>')
+
+
+def tarjetas_substack(idioma):
+    items = []
+    for n in T["enlaces"]["newsletters"]:
+        if pendiente(n["url"]):
+            items.append(f"<!-- {e(n['url'])} ({e(n['nombre'])}) -->")
+            continue
+        items.append(f'<li><a href="{e(n["url"])}" rel="noopener">{SUBSTACK_LOGO}'
+                     f'<span class="tag">Substack</span>'
+                     f'<span class="title">{e(n["nombre"])}</span></a></li>')
+    return "\n      ".join(items)
+
+
 def pagina_inicio(idioma):
     s = T["inicio"][idioma]
     rel = "../" if CARPETA[idioma] else ""
-    cuerpo = f"""<section class="home" aria-labelledby="nombre">
+    cuerpo = f"""<section class="sheet" aria-labelledby="nombre">
   <figure class="frame">
-    {retrato(rel + "assets/img/inicio", s['foto_alt'], "(max-width: 760px) 92vw, 340px")}
+    {retrato(rel + "assets/img/inicio", s['foto_alt'], "(max-width: 760px) 60vw, 340px")}
   </figure>
-  <div class="home-text">
+  <div class="sheet-text">
     <h1 id="nombre" class="sr-only">Rogelio Alcántara</h1>
-    <p class="statement">{e(s['frase'])}</p>
-    <div class="channels">
-      <h2 class="kicker">{e(s['newsletters'])}</h2>
-      <ul>
-      {fila_enlaces(idioma)}
-      </ul>
-    </div>
+    <p class="say">{e(s['frase'])}</p>
+    <ul class="subs" aria-label="{e(s['newsletters'])}">
+      {tarjetas_substack(idioma)}
+    </ul>
   </div>
 </section>"""
-    return pagina(idioma, "inicio", s["titulo_meta"], s["descripcion"], cuerpo)
+    return pagina(idioma, "inicio", s["titulo_meta"], s["descripcion"], cuerpo, con_pie=False)
 
 
 # ---------------------------------------------------------------- secciones

@@ -97,7 +97,8 @@
       "teatro": "Theatre",
       "editorial": "Editorial",
       "terreno": "Fieldwork",
-      "acerca": "Curriculum"
+      "acerca": "Curriculum",
+      "contacto": "Contact"
     },
     "es": {
       "escritos": "Escritos",
@@ -106,7 +107,8 @@
       "teatro": "Teatro",
       "editorial": "Editorial",
       "terreno": "Trabajo de campo",
-      "acerca": "Currículum"
+      "acerca": "Currículum",
+      "contacto": "Contacto"
     },
     "fr": {
       "escritos": "Écrits",
@@ -115,7 +117,8 @@
       "teatro": "Théâtre",
       "editorial": "Éditorial",
       "terreno": "Terrain",
-      "acerca": "Curriculum"
+      "acerca": "Curriculum",
+      "contacto": "Contact"
     }
   },
   "tipos": {
