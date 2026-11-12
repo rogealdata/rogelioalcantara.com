@@ -1,0 +1,13 @@
+{
+  "_instrucciones": "Actividades editoriales (revistas, ediciones, curaduría). 'desde' es el año de inicio; si ya terminó, añade 'hasta'. Después de editar: python3 tools/build.py",
+  "proyectos": [
+    {
+      "id": "paralaje",
+      "titulo": "Revista Paralaje",
+      "desde": "2026",
+      "rol": { "en": "Co-founder and editor", "es": "Cofundador y editor", "fr": "Cofondateur et éditeur" },
+      "descripcion": { "en": "Arts magazine in Spanish", "es": "Revista artística en español", "fr": "Revue artistique en espagnol" },
+      "url": "http://www.revistaparalaje.com/"
+    }
+  ]
+}

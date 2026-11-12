@@ -177,8 +177,8 @@ main > .sheet{ border-top: 3px solid var(--ink); margin-top: -1px; }
 .subs li{ border-top: 1px solid var(--ink); }
 .subs a{ display: block; padding: 18px 0 8px; text-decoration: none; }
 .subs .logo{ display: block; width: 14px; height: 14px; color: #ff6719; margin-bottom: 14px; }
-.subs .tag{ display: block; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 6px; }
-.subs .title{ display: block; font-size: 1.4rem; line-height: 1.2; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 0 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .3s ease, color .2s ease; width: fit-content; }
+.subs .tag{ display: block; font-size: .72rem; letter-spacing: .16em; text-transform: lowercase; color: var(--ink-dim); margin-bottom: 6px; }
+.subs .title{ display: block; text-transform: lowercase; font-size: 1.4rem; line-height: 1.2; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 0 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .3s ease, color .2s ease; width: fit-content; }
 .subs a:hover .title{ color: var(--accent); background-size: 100% 1px; }
 
 /* ============ archivo de obra ============ */
@@ -222,6 +222,7 @@ main > .sheet{ border-top: 3px solid var(--ink); margin-top: -1px; }
 .cv-block summary::after{ content: "+"; margin-left: auto; color: var(--ink-dim); font-size: 1.3rem; line-height: 1; transition: transform .2s ease; }
 .cv-block[open] summary::after{ transform: rotate(45deg); }
 .cv-block summary:hover h2{ color: var(--accent); }
+.cv-sub{ font-size: 1rem; font-weight: 400; color: var(--ink-dim); margin-top: 4px; }
 .cv-lines{ list-style: none; margin: 0; padding: 0 0 20px; }
 .cv-lines li{ display: flex; gap: 6px 18px; padding-block: 7px; align-items: baseline; flex-wrap: wrap; max-width: 820px; }
 .cv-lines li > span:last-child{ flex: 1 1 320px; min-width: 0; }

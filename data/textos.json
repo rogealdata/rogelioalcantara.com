@@ -28,7 +28,8 @@
       ],
       "fecha_formato": "{mes} {anio}",
       "redes": "Profiles",
-      "youtube_pronto": "YouTube (coming soon)"
+      "youtube_pronto": "YouTube (coming soon)",
+      "fecha_formato_dia": "{mes} {dia}, {anio}"
     },
     "es": {
       "saltar": "Saltar al contenido",
@@ -57,7 +58,8 @@
       ],
       "fecha_formato": "{mes} de {anio}",
       "redes": "Perfiles",
-      "youtube_pronto": "YouTube (próximamente)"
+      "youtube_pronto": "YouTube (próximamente)",
+      "fecha_formato_dia": "{dia} de {mes} de {anio}"
     },
     "fr": {
       "saltar": "Aller au contenu",
@@ -86,7 +88,8 @@
       ],
       "fecha_formato": "{mes} {anio}",
       "redes": "Profils",
-      "youtube_pronto": "YouTube (bientôt)"
+      "youtube_pronto": "YouTube (bientôt)",
+      "fecha_formato_dia": "{dia} {mes} {anio}"
     }
   },
   "nav": {
@@ -218,21 +221,27 @@
       "intro": "Essays, interviews, academic work and talks, newest first.",
       "filtro": "Filter by type",
       "todo": "All",
-      "doi": "DOI"
+      "doi": "DOI",
+      "pdf": "PDF: abstract and table of contents",
+      "dirigida": "Supervised by {x}"
     },
     "es": {
       "descripcion": "Ensayos, entrevistas, trabajo académico y ponencias de Rogelio Alcántara.",
       "intro": "Ensayos, entrevistas, trabajo académico y ponencias, del más reciente al más antiguo.",
       "filtro": "Filtrar por tipo",
       "todo": "Todo",
-      "doi": "DOI"
+      "doi": "DOI",
+      "pdf": "PDF: abstract y sumario",
+      "dirigida": "Dirigida por {x}"
     },
     "fr": {
       "descripcion": "Essais, entretiens, travaux universitaires et communications de Rogelio Alcántara.",
       "intro": "Essais, entretiens, travaux universitaires et communications, du plus récent au plus ancien.",
       "filtro": "Filtrer par type",
       "todo": "Tout",
-      "doi": "DOI"
+      "doi": "DOI",
+      "pdf": "PDF : abstract et sommaire",
+      "dirigida": "Sous la direction de {x}"
     }
   },
   "secciones_en_preparacion": {
@@ -240,19 +249,19 @@
       "docencia": "Courses, seminars, workshops and teaching materials.",
       "proyectos": "Research and professional projects.",
       "teatro": "Work and research on theatre and politics.",
-      "editorial": "Editorial projects, editing and curation."
+      "editorial": "Editorial activities: magazines, editing and curation."
     },
     "es": {
       "docencia": "Cursos, seminarios, talleres y materiales docentes.",
       "proyectos": "Proyectos de investigación y profesionales.",
       "teatro": "Trabajos e investigación sobre teatro y política.",
-      "editorial": "Proyectos editoriales, edición y curaduría."
+      "editorial": "Actividades editoriales: revistas, edición y curaduría."
     },
     "fr": {
       "docencia": "Cours, séminaires, ateliers et supports pédagogiques.",
       "proyectos": "Projets de recherche et projets professionnels.",
       "teatro": "Travaux et recherches sur le théâtre et la politique.",
-      "editorial": "Projets éditoriaux, édition et curation."
+      "editorial": "Activités éditoriales : revues, édition et curation."
     }
   },
   "terreno": {
@@ -324,10 +333,13 @@
       },
       "descargar": "Download CV (PDF)",
       "publicaciones": "Publications",
-      "tesis": "Theses",
-      "ponencias": "Talks and seminars",
-      "academico": "Academic",
-      "nombre_cv": "Curriculum vitae"
+      "nombre_cv": "Curriculum vitae",
+      "pub_academico": "Academic",
+      "pub_prensa": "Press, essays, opinion pieces and interviews",
+      "editorial": "Editorial activities",
+      "participaciones": "Academic participation",
+      "congresos": "Conferences and congresses",
+      "organizacion": "Academic organizing"
     },
     "es": {
       "titulo": "Currículum",
@@ -360,10 +372,13 @@
       },
       "descargar": "Descargar CV (PDF)",
       "publicaciones": "Publicaciones",
-      "tesis": "Tesis",
-      "ponencias": "Ponencias y seminarios",
-      "academico": "Académico",
-      "nombre_cv": "Currículum"
+      "nombre_cv": "Currículum",
+      "pub_academico": "Académico",
+      "pub_prensa": "Prensa, ensayos, columnas y entrevistas",
+      "editorial": "Actividades editoriales",
+      "participaciones": "Participaciones académicas",
+      "congresos": "Congresos y coloquios",
+      "organizacion": "Organización académica"
     },
     "fr": {
       "titulo": "Curriculum",
@@ -396,16 +411,19 @@
       },
       "descargar": "Télécharger le CV (PDF)",
       "publicaciones": "Publications",
-      "tesis": "Mémoires",
-      "ponencias": "Communications et séminaires",
-      "academico": "Académique",
-      "nombre_cv": "Curriculum vitae"
+      "nombre_cv": "Curriculum vitae",
+      "pub_academico": "Académique",
+      "pub_prensa": "Presse, essais, tribunes et entretiens",
+      "editorial": "Activités éditoriales",
+      "participaciones": "Participations académiques",
+      "congresos": "Colloques et congrès",
+      "organizacion": "Organisation académique"
     }
   },
   "enlaces": {
     "newsletters": [
       {
-        "nombre": "Mitotero político",
+        "nombre": "mitotero",
         "url": "https://mitoteropolitico.substack.com/"
       },
       {
