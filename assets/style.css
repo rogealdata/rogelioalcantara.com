@@ -177,8 +177,8 @@ main > .sheet{ border-top: 3px solid var(--ink); margin-top: -1px; }
 .subs li{ border-top: 1px solid var(--ink); }
 .subs a{ display: block; padding: 18px 0 8px; text-decoration: none; }
 .subs .logo{ display: block; width: 14px; height: 14px; color: #ff6719; margin-bottom: 14px; }
-.subs .tag{ display: block; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 6px; }
-.subs .title{ display: block; font-size: 1.4rem; line-height: 1.2; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 0 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .3s ease, color .2s ease; width: fit-content; }
+.subs .tag{ display: block; font-size: .72rem; letter-spacing: .16em; text-transform: lowercase; color: var(--ink-dim); margin-bottom: 6px; }
+.subs .title{ display: block; text-transform: lowercase; font-size: 1.4rem; line-height: 1.2; background-image: linear-gradient(var(--accent), var(--accent)); background-size: 0 1px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .3s ease, color .2s ease; width: fit-content; }
 .subs a:hover .title{ color: var(--accent); background-size: 100% 1px; }
 
 /* ============ archivo de obra ============ */
