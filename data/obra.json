@@ -1,21 +1,31 @@
 {
-  "_instrucciones": "Una entrada por obra. Orden libre: el índice se ordena solo por 'fecha' (AAAA-MM). Tipos: articulo, entrevista, tesis, ponencia, organizacion. Los títulos no se traducen; 'medio', 'lugar' y 'nota' pueden ser texto simple o {en, es, fr}. Después de editar: python3 tools/build.py",
+  "_instrucciones": "Una entrada por obra. Orden libre: el índice se ordena solo por 'fecha' (AAAA-MM). Tipos: articulo, entrevista, tesis, ponencia, organizacion. Opcionales: 'dia' (número), 'academico': true (publicación académica: en el CV va con las tesis), 'pdf' (ruta de un PDF en assets/pdf/), 'direccion' (director de tesis). Los títulos no se traducen; 'medio', 'lugar' y 'nota' pueden ser texto simple o {en, es, fr}. Después de editar: python3 tools/build.py",
   "obra": [
+    {
+      "fecha": "2026-11",
+      "tipo": "articulo",
+      "titulo": "La violencia criminal en Chiapas",
+      "idioma": "es",
+      "medio": "Revista Nexos",
+      "url": "https://seguridad.nexos.com.mx/la-violencia-criminal-en-chiapas/"
+    },
     {
       "fecha": "2026-09",
       "tipo": "tesis",
-      "titulo": "Le régime de transition vers la criminalité au Chiapas",
+      "titulo": "Le régime de violence au Chiapas. Fragmentation sociale, dépolitisation et complexe criminel (1994-2025)",
       "idioma": "fr",
       "medio": {
-        "en": "Master's thesis (M2), EHESS",
-        "es": "Tesis de maestría (M2), EHESS",
-        "fr": "Mémoire de master 2, EHESS"
+        "en": "Master’s thesis (M2), École des Hautes Études en Sciences Sociales (EHESS)",
+        "es": "Tesis de maestría (M2), École des Hautes Études en Sciences Sociales (EHESS)",
+        "fr": "Mémoire de master 2, École des Hautes Études en Sciences Sociales (EHESS)"
       },
+      "direccion": "Gilles Bataillon",
       "nota": {
-        "en": "Supervised by Gilles Bataillon. Defended; publication forthcoming.",
-        "es": "Dirigida por Gilles Bataillon. Presentada; publicación pendiente.",
-        "fr": "Sous la direction de Gilles Bataillon. Soutenu ; publication à venir."
-      }
+        "en": "Supervised by Gilles Bataillon. Defended; full text forthcoming.",
+        "es": "Dirigida por Gilles Bataillon. Presentada; texto completo pendiente de publicación.",
+        "fr": "Sous la direction de Gilles Bataillon. Soutenu ; texte intégral à venir."
+      },
+      "pdf": "assets/pdf/rogelio-alcantara-le-regime-de-violence-au-chiapas-2026.pdf"
     },
     {
       "fecha": "2026-08",
@@ -30,8 +40,32 @@
       "tipo": "articulo",
       "titulo": "Los Ardillos en Guerrero: fragmentación criminal y violencia",
       "idioma": "es",
-      "medio": "Nexos",
+      "medio": "Revista Nexos",
       "url": "https://seguridad.nexos.com.mx/los-ardillos-en-guerrero-fragmentacion-criminal-y-violencia"
+    },
+    {
+      "fecha": "2026-06",
+      "tipo": "ponencia",
+      "titulo": "Las culturas políticas en el siglo XXI. La complejidad del panorama iberoamericano",
+      "idioma": "es",
+      "medio": "Seminario “Un puente sobre el Atlántico”, EHESS / UPV-EHU / Universidad de Oviedo",
+      "lugar": { "en": "Fondation Casa de México, Paris", "es": "Fondation Casa de México, París", "fr": "Fondation Casa de México, Paris" }
+    },
+    {
+      "fecha": "2026-06",
+      "tipo": "organizacion",
+      "titulo": "Représentation politique des minorités et dispositifs de discrimination positive au Mexique avec Willibald Sonnleitner (El Colegio de México)",
+      "idioma": "fr",
+      "medio": "Séminaire des mexicanistes de la Maison du Mexique",
+      "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
+    },
+    {
+      "fecha": "2026-06",
+      "tipo": "organizacion",
+      "titulo": "Élections et réforme électorale au Mexique avec Uuc-kib Espadas, conseiller de l’Institut national électoral (INE)",
+      "idioma": "fr",
+      "medio": "Séminaire des mexicanistes de la Maison du Mexique",
+      "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
     },
     {
       "fecha": "2026-05",
@@ -44,7 +78,7 @@
     {
       "fecha": "2026-05",
       "tipo": "organizacion",
-      "titulo": "Perspectives de l’Amérique Centrale",
+      "titulo": "Perspectives sur l’Amérique centrale avec Gilles Bataillon (EHESS)",
       "idioma": "fr",
       "medio": "Séminaire des mexicanistes de la Maison du Mexique",
       "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
@@ -73,6 +107,7 @@
     {
       "fecha": "2025-08",
       "tipo": "articulo",
+      "academico": true,
       "titulo": "La criminalisation comme politique : mexicanisation, violence et disparus",
       "idioma": "fr",
       "medio": "Carnets d’études politiques",
@@ -84,15 +119,16 @@
       "tipo": "entrevista",
       "titulo": "Las masas ya no existen. Entrevista con Marcel Gauchet",
       "idioma": "es",
-      "medio": "Nexos",
+      "medio": "Revista Nexos",
       "url": "https://www.nexos.com.mx/?p=85483"
     },
     {
       "fecha": "2025-08",
+      "dia": 6,
       "tipo": "ponencia",
       "titulo": "La violencia en el cambio de régimen",
       "idioma": "es",
-      "medio": "XIII Congreso Internacional de Ciencia Política",
+      "medio": "XIII Congreso Internacional de Ciencia Política, UNAM",
       "lugar": { "en": "Mexico City", "es": "Ciudad de México", "fr": "Mexico" }
     },
     {
@@ -100,18 +136,21 @@
       "tipo": "articulo",
       "titulo": "La violencia en el cambio de régimen",
       "idioma": "es",
-      "medio": "Nexos",
+      "medio": "Revista Nexos",
       "url": "https://www.nexos.com.mx/?p=85163"
     },
     {
       "fecha": "2025-04",
+      "dia": 11,
       "tipo": "ponencia",
       "titulo": "La criminalisation comme politique. Mexicanisation, violence et disparus",
       "idioma": "fr",
-      "medio": "9e Journée d’étude de la mention Études politiques"
+      "medio": "9e Journée d’étude de la mention Études politiques",
+      "lugar": { "en": "Paris", "es": "París", "fr": "Paris" }
     },
     {
       "fecha": "2024-12",
+      "dia": 12,
       "tipo": "ponencia",
       "titulo": "La criminalización de la política. Seguridad, violencia política y desaparecidos",
       "idioma": "es",
@@ -123,7 +162,7 @@
       "tipo": "articulo",
       "titulo": "A Dios lo que es de Dios, al Diablo lo que es del Diablo",
       "idioma": "es",
-      "medio": "Nexos",
+      "medio": "Revista Nexos",
       "nota": {
         "en": "Notes on <i>Para una teología política del crimen organizado</i>, by Claudio Lomnitz.",
         "es": "Apunte sobre <i>Para una teología política del crimen organizado</i>, de Claudio Lomnitz.",

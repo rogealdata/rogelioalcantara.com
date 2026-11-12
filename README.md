@@ -11,6 +11,7 @@ Todo el contenido vive en `data/`:
 | `data/obra.json` | Escritos, tesis, ponencias y organización académica (un solo archivo para el índice de Escritos y la portada) |
 | `data/textos.json` | Todos los textos de las páginas, por idioma (en, es, fr), y los enlaces externos |
 | `data/terreno.json` | Proyectos y fotos de Trabajo de campo |
+| `data/editorial.json` | Actividades editoriales (revistas, edición) |
 
 Después de editar, regenera las páginas:
 
@@ -22,7 +23,7 @@ Sólo necesita Python 3 (sin instalar nada). Si encuentra Google Chrome, además
 
 ### Añadir una obra
 
-Copia una entrada en `data/obra.json` y cambia los campos. `fecha` es `AAAA-MM` (o sólo `AAAA`); `tipo` es `articulo`, `entrevista`, `tesis`, `ponencia` u `organizacion`. Los títulos no se traducen; `medio`, `lugar` y `nota` pueden ser texto simple o `{ "en": …, "es": …, "fr": … }`.
+Copia una entrada en `data/obra.json` y cambia los campos. `fecha` es `AAAA-MM` (o sólo `AAAA`); `tipo` es `articulo`, `entrevista`, `tesis`, `ponencia` u `organizacion`; opcionales: `dia`, `academico: true`, `direccion` y `pdf` (ruta de un PDF dentro de `assets/pdf/`, que enlaza la entrada). Los títulos no se traducen; `medio`, `lugar` y `nota` pueden ser texto simple o `{ "en": …, "es": …, "fr": … }`.
 
 ### Añadir fotos de terreno
 
@@ -48,6 +49,8 @@ assets/style.css      → estilos (modo claro/oscuro incluido)
 assets/script.js      → lámpara, correo protegido, filtro de Escritos
 assets/fonts/         → EB Garamond (licencia OFL)
 assets/img/           → imágenes ya limpias de metadatos
+assets/pdf/           → PDF de textos (p. ej. extracto del mémoire)
+assets/cv/            → CV en PDF (se regenera con build.py)
 data/, tools/         → contenido y generador
 ```
 

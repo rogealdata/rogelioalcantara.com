@@ -55,6 +55,7 @@ VERSION_CSS = _version_css()
 T = cargar("textos.json")
 OBRA = cargar("obra.json")["obra"]
 TERRENO = cargar("terreno.json")["proyectos"]
+EDITORIAL = cargar("editorial.json")["proyectos"]
 e = html.escape
 
 
@@ -82,7 +83,10 @@ def fecha(item, idioma):
     if len(partes) == 1:
         return partes[0]
     c = T["comun"][idioma]
-    return c["fecha_formato"].format(mes=c["meses"][int(partes[1]) - 1], anio=partes[0])
+    mes = c["meses"][int(partes[1]) - 1]
+    if item.get("dia"):
+        return c["fecha_formato_dia"].format(dia=item["dia"], mes=mes, anio=partes[0])
+    return c["fecha_formato"].format(mes=mes, anio=partes[0])
 
 
 # ---------------------------------------------------------------- piezas
@@ -275,11 +279,21 @@ def obra_ordenada():
     return sorted(OBRA, key=lambda i: i["fecha"], reverse=True)
 
 
+def enlace_obra(item, idioma, absoluto=False):
+    """URL externa de la obra o, si no hay, su PDF propio (ruta relativa a la página)."""
+    if item.get("url"):
+        return item["url"]
+    if item.get("pdf"):
+        return (URL_BASE if absoluto else ("../" if CARPETA[idioma] else "")) + item["pdf"]
+    return None
+
+
 def item_obra(item, idioma, h="h3"):
     tipos = T["tipos"][idioma]
     titulo = e(item["titulo"])
-    if item.get("url"):
-        titulo = f'<a href="{e(item["url"])}" rel="noopener">{titulo}</a>'
+    destino = enlace_obra(item, idioma)
+    if destino:
+        titulo = f'<a href="{e(destino)}" rel="noopener">{titulo}</a>'
     meta = [e(loc(item.get("medio"), idioma)), e(loc(item.get("lugar"), idioma)), e(fecha(item, idioma))]
     meta = " · ".join(m for m in meta if m)
     lineas = [
@@ -290,6 +304,9 @@ def item_obra(item, idioma, h="h3"):
     ]
     if item.get("nota"):
         lineas.append(f'<p class="entry-note">{loc(item["nota"], idioma)}</p>')
+    if item.get("pdf"):
+        lineas.append(f'<p class="entry-note"><a href="{e(enlace_obra({"pdf": item["pdf"]}, idioma))}" '
+                      f'type="application/pdf">{e(T["escritos"][idioma]["pdf"])}</a></p>')
     if item.get("doi"):
         d = e(item["doi"])
         lineas.append(f'<p class="entry-note">{T["escritos"][idioma]["doi"]}: '
@@ -398,6 +415,36 @@ def pagina_en_preparacion(idioma, clave):
     return pagina(idioma, clave, titulo_pagina(idioma, clave), s, cuerpo)
 
 
+def filas_editorial(idioma):
+    return [(p, f'{p["desde"]}–{p.get("hasta", "")}') for p in EDITORIAL]
+
+
+def pagina_editorial(idioma):
+    s = T["secciones_en_preparacion"][idioma]["editorial"]
+    c = T["comun"][idioma]
+    items = []
+    for p, periodo in filas_editorial(idioma):
+        titulo = e(p["titulo"])
+        if not pendiente(p.get("url")):
+            titulo = f'<a href="{e(p["url"])}" rel="noopener">{titulo}</a>'
+        items.append(f"""<li class="entry">
+  <p class="entry-kicker"><span class="kicker">{e(periodo)}</span></p>
+  <h2 class="entry-title">{titulo}</h2>
+  <p class="entry-meta">{e(loc(p["rol"], idioma))} · {e(loc(p["descripcion"], idioma))}</p>
+</li>""")
+    contenido = (f'<ol class="entries">\n{chr(10).join(items)}\n</ol>' if items else
+                 f'<!-- TODO: proyectos editoriales (ver data/editorial.json). -->\n'
+                 f'<p class="placeholder">{e(c["en_preparacion"])}</p>')
+    cuerpo = f"""<div class="page-head">
+  <h1>{e(T['nav'][idioma]['editorial'])}</h1>
+  <p class="lede">{e(s)}</p>
+</div>
+<div class="archive">
+{contenido}
+</div>"""
+    return pagina(idioma, "editorial", titulo_pagina(idioma, "editorial"), s, cuerpo)
+
+
 def figura(foto, idioma, rel):
     s = T["terreno"][idioma]
     src = rel + foto["src"]
@@ -443,37 +490,64 @@ def nombre_pdf(idioma):
     return f"assets/cv/rogelio-alcantara-cv-{idioma}.pdf"
 
 
-def secciones_cv(idioma):
-    """Secciones del CV, construidas desde data/: se actualizan solas."""
+def secciones_cv(idioma, absoluto=False):
+    """Secciones del CV, construidas desde data/: se actualizan solas.
+
+    Devuelve [(clave, título, [(subtítulo o None, [filas html])])].
+    """
     cv = T["cv"][idioma]
 
     def lineas(clave):
         return [f'<span class="role">{e(rol)}</span> <span class="org">{e(org)}</span>'
                 for rol, org in cv["lineas"][clave]]
 
-    def obras(*tipos):
+    def obras(cumple):
         filas = []
         for i in obra_ordenada():
-            if i["tipo"] not in tipos:
+            if not cumple(i):
                 continue
             titulo = e(i["titulo"])
-            if i.get("url"):
-                titulo = f'<a href="{e(i["url"])}" rel="noopener">{titulo}</a>'
-            meta = ", ".join(x for x in (e(loc(i.get("medio"), idioma)), e(loc(i.get("lugar"), idioma))) if x)
+            destino = enlace_obra(i, idioma, absoluto)
+            if destino:
+                titulo = f'<a href="{e(destino)}" rel="noopener">{titulo}</a>'
+            partes = [e(loc(i.get("medio"), idioma)), e(loc(i.get("lugar"), idioma))]
+            if i.get("direccion"):
+                partes.append(e(T["escritos"][idioma]["dirigida"].format(x=i["direccion"])))
+            meta = ", ".join(x for x in partes if x)
             anio = e(i.get("fecha_texto") or i["fecha"][:4])
             filas.append(f'<span class="cv-year">{anio}</span> '
                          f'<span><cite lang="{i["idioma"]}">{titulo}</cite>. {meta}.</span>')
         return filas
 
-    return [
-        ("formacion", cv["formacion"], lineas("formacion")),
-        ("trayectoria", cv["trayectoria"], lineas("trayectoria")),
-        ("publicaciones", cv["publicaciones"], obras("articulo", "entrevista")),
-        ("tesis", cv["tesis"], obras("tesis")),
-        ("ponencias", cv["ponencias"], obras("ponencia")),
-        ("academico", cv["academico"], obras("organizacion")),
-        ("areas", cv["areas"], [e(x.strip(" .")) for x in cv["areas_texto"].split("·")]),
+    def tipo(*tipos):
+        return lambda i: i["tipo"] in tipos
+
+    def academica(i):
+        return i["tipo"] == "tesis" or bool(i.get("academico"))
+
+    def prensa(i):
+        return i["tipo"] in ("articulo", "entrevista") and not i.get("academico")
+
+    editorial = []
+    for p, periodo in filas_editorial(idioma):
+        titulo = e(p["titulo"])
+        if not pendiente(p.get("url")):
+            titulo = f'<a href="{e(p["url"])}" rel="noopener">{titulo}</a>'
+        editorial.append(f'<span class="cv-year">{e(periodo)}</span> '
+                         f'<span><cite>{titulo}</cite>. {e(loc(p["rol"], idioma))}. {e(loc(p["descripcion"], idioma))}.</span>')
+
+    secciones = [
+        ("formacion", cv["formacion"], [(None, lineas("formacion"))]),
+        ("trayectoria", cv["trayectoria"], [(None, lineas("trayectoria"))]),
+        ("publicaciones", cv["publicaciones"],
+         [(cv["pub_academico"], obras(academica)), (cv["pub_prensa"], obras(prensa))]),
+        ("editorial", cv["editorial"], [(None, editorial)]),
+        ("participaciones", cv["participaciones"],
+         [(cv["congresos"], obras(tipo("ponencia"))), (cv["organizacion"], obras(tipo("organizacion")))]),
+        ("areas", cv["areas"], [(None, [e(x.strip(" .")) for x in cv["areas_texto"].split("·")])]),
     ]
+    return [(k, t_, [(sub, f) for sub, f in grupos if f]) for k, t_, grupos in secciones
+            if any(f for _, f in grupos)]
 
 
 def pagina_acerca(idioma):
@@ -481,15 +555,16 @@ def pagina_acerca(idioma):
     cv = T["cv"][idioma]
     rel = "../" if CARPETA[idioma] else ""
     bloques = []
-    for clave, titulo, filas in secciones_cv(idioma):
-        if not filas:
-            continue
-        lis = "\n".join(f"    <li>{f}</li>" for f in filas)
+    for clave, titulo, grupos in secciones_cv(idioma):
+        total = sum(len(f) for _, f in grupos)
+        listas = []
+        for sub, filas in grupos:
+            lis = "\n".join(f"    <li>{f}</li>" for f in filas)
+            cabeza = f'  <h3 class="cv-sub">{e(sub)}</h3>\n' if sub else ""
+            listas.append(f'{cabeza}  <ul class="cv-lines">\n{lis}\n  </ul>')
         bloques.append(f"""<details class="cv-block" id="cv-{clave}" open>
-  <summary><h2>{e(titulo)}</h2><span class="count">{len(filas)}</span></summary>
-  <ul class="cv-lines">
-{lis}
-  </ul>
+  <summary><h2>{e(titulo)}</h2><span class="count">{total}</span></summary>
+{chr(10).join(listas)}
 </details>""")
     cuerpo = f"""<h1 class="sr-only">{e(T['nav'][idioma]['acerca'])}</h1>
 <div class="about">
@@ -513,10 +588,13 @@ def pagina_cv_imprimible(idioma):
     s = T["acerca"][idioma]
     cv = T["cv"][idioma]
     bloques = []
-    for _, titulo, filas in secciones_cv(idioma):
-        if filas:
+    for _, titulo, grupos in secciones_cv(idioma, absoluto=True):
+        listas = []
+        for sub, filas in grupos:
             lis = "\n".join(f"<li>{f}</li>" for f in filas)
-            bloques.append(f"<section><h2>{e(titulo)}</h2><ul>\n{lis}\n</ul></section>")
+            cabeza = f"<h3>{e(sub)}</h3>" if sub else ""
+            listas.append(f"{cabeza}<ul>\n{lis}\n</ul>")
+        bloques.append(f"<section><h2>{e(titulo)}</h2>\n{chr(10).join(listas)}\n</section>")
     perfiles = " · ".join(e(unquote(p["url"]).replace("https://", "").replace("www.", "").rstrip("/"))
                           for p in T["enlaces"]["perfiles"] if not pendiente(p["url"]))
     return f"""<!doctype html>
@@ -535,6 +613,7 @@ h1{{font-weight:400;font-size:24pt;margin:0}}
 .sub{{font-style:italic;color:#5c5346;font-size:13pt;margin:2pt 0 8pt}}
 .contact{{color:#5c5346;font-size:9.5pt;border-bottom:.5pt solid #b9b0a0;padding-bottom:10pt;margin:0 0 4pt}}
 h2{{font-weight:400;font-style:italic;text-transform:lowercase;color:#6b2129;font-size:12pt;margin:14pt 0 4pt}}
+h3{{font-weight:400;font-size:10pt;color:#5c5346;margin:8pt 0 2pt}}
 ul{{list-style:none;margin:0;padding:0}}
 li{{display:flex;gap:10pt;padding:2pt 0;break-inside:avoid}}
 .cv-year{{flex:0 0 46pt;color:#5c5346}}
@@ -612,8 +691,9 @@ def main():
         base = CARPETA[idioma]
         hechas.append(escribir(base + "index.html", pagina_inicio(idioma)))
         hechas.append(escribir(base + "escritos.html", pagina_escritos(idioma)))
-        for clave in ("docencia", "proyectos", "teatro", "editorial"):
+        for clave in ("docencia", "proyectos", "teatro"):
             hechas.append(escribir(base + ARCHIVO[clave], pagina_en_preparacion(idioma, clave)))
+        hechas.append(escribir(base + ARCHIVO["editorial"], pagina_editorial(idioma)))
         hechas.append(escribir(base + ARCHIVO["terreno"], pagina_terreno(idioma)))
         hechas.append(escribir(base + ARCHIVO["acerca"], pagina_acerca(idioma)))
         escribir(f"assets/cv/{idioma}.html", pagina_cv_imprimible(idioma))
